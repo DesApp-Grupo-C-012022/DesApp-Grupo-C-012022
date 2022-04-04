@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.6.6"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("org.sonarqube") version "3.3"
 	war
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
@@ -29,6 +30,12 @@ dependencies {
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+}
+
+sonarqube {
+	properties {
+		property("sonar.projectKey", "jcvincenti_DesApp-Grupo-C-012022")
+	}
 }
 
 tasks.withType<KotlinCompile> {

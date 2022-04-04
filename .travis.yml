@@ -3,3 +3,8 @@ jdk:
   - openjdk11
 before_install:
   – chmod +x gradlew
+addons:
+  sonarcloud:
+    organization: "jcvincenti-ggoffredo"
+script:
+  - ./gradlew sonarqube
