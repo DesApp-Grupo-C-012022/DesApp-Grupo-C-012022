@@ -8,3 +8,14 @@
 | ------------------ | ------------------------------------------- | ------------------------------ |
 |  Gaston Goffredo   |  [ggoffredo](https://github.com/ggoffredo)  | gaston.goffredo@alu.unq.edu.ar |
 | Juan Cruz Vincenti | [jcvincenti](https://github.com/jcvincenti) |   juancruzvincenti@gmail.com   |
+
+## Stack
+- Kotlin
+- Spring boot
+- Travis
+- SonarCloud
+
+## Fechas de entrega
+- [ ] 04/05/2022
+- [ ] 01/06/2022
+- [ ] 22/06/2022
