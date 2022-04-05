@@ -4,7 +4,7 @@
 
 ## Integrantes
 
-|Nombre y apellido|	Github|	Correo
-| ------ | ------ | ------ |
-| Gaston Goffredo | [ggoffredo](https://github.com/ggoffredo) | gaston.goffredo@alu.unq.edu.ar |
-| Juan Cruz Vincenti | [jcvincenti](https://github.com/jcvincenti) | juancruzvincenti@gmail.com |
+| Nombre y apellido  |                   Github                    |	          Correo            |
+| ------------------ | ------------------------------------------- | ------------------------------ |
+|  Gaston Goffredo   |  [ggoffredo](https://github.com/ggoffredo)  | gaston.goffredo@alu.unq.edu.ar |
+| Juan Cruz Vincenti | [jcvincenti](https://github.com/jcvincenti) |   juancruzvincenti@gmail.com   |
