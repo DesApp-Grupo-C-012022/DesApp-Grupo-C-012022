@@ -8,3 +8,7 @@ addons:
     organization: "ggoffredo-jcvincenti"
 script:
   - ./gradlew sonarqube
+# safelist
+branches:
+  only:
+    - main

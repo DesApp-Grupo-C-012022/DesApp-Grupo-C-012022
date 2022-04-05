@@ -12,6 +12,9 @@
 ## Stack
 - Kotlin
 - Spring boot
+- Hibernate
+- Swagger
+- Heroku
 - Travis
 - SonarCloud
 
