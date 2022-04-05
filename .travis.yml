@@ -5,6 +5,6 @@ before_install:
   – chmod +x gradlew
 addons:
   sonarcloud:
-    organization: "jcvincenti-ggoffredo"
+    organization: "ggoffredo-jcvincenti"
 script:
   - ./gradlew sonarqube
