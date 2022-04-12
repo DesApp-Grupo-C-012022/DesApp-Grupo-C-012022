@@ -48,3 +48,7 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+springBoot {
+	mainClass.set("ar.edu.unq.desapp.grupoC012022.backenddesappapi.CriptoP2PApplicationKt")
+}
