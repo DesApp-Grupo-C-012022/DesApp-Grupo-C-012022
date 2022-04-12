@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class BackendDesappApiApplication
+class CriptoP2PApplication
 
 fun main(args: Array<String>) {
-	runApplication<BackendDesappApiApplication>(*args)
+	runApplication<CriptoP2PApplication>(*args)
 }
