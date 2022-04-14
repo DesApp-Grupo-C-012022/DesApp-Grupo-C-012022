@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class TestController {
 
-    @GetMapping("/")
+    @GetMapping("/criptos")
     @ResponseBody
     fun getCriptos(): List<Cripto> {
         val cripto1 = Cripto("usdt", 1)
