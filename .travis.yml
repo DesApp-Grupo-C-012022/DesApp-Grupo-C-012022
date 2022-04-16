@@ -7,7 +7,7 @@ addons:
   sonarcloud:
     organization: "ggoffredo-jcvincenti"
 script:
-  - ./gradlew sonarqube
+  - ./gradlew jacocoTestReport sonarqube
 # safelist
 branches:
   only:

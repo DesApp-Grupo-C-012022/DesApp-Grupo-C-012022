@@ -4,8 +4,8 @@ plugins {
 	id("org.springframework.boot") version "2.6.6"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.sonarqube") version "3.3"
+	id("jacoco")
 	war
-	jacoco
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
@@ -55,6 +55,13 @@ tasks.withType<Test> {
 
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
+	reports {
+		xml.required.set(true)
+	}
+}
+
+tasks.sonarqube {
+	dependsOn(tasks.jacocoTestReport)
 }
 
 springBoot {
