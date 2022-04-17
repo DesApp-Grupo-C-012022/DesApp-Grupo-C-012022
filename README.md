@@ -13,9 +13,9 @@
 - Kotlin
 - Spring boot
 - Hibernate
-- Swagger
-- Heroku
-- Travis
+- [Swagger](https://desapp-grupo-c-012022.herokuapp.com/swagger)
+- [Heroku](https://desapp-grupo-c-012022.herokuapp.com)
+- [Travis](https://app.travis-ci.com/github/jcvincenti/DesApp-Grupo-C-012022)
 - SonarCloud
 
 ## Fechas de entrega
