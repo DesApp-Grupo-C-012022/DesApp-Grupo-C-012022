@@ -1,61 +1,19 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
 class ModelTests {
 
-	private fun aCurrency(): Currency {
-		return Currency("USDT", "Tether")
-	}
-
-	private fun aUser(): User {
-		return User("Name", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithFirstName(FirstNAme:String): User {
-		return User(FirstNAme, "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithLastName(LastName: String): User {
-		return User("FirstNAme", LastName, "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithEmail(Email: String): User {
-		return User("FirstNAme", "LastName", Email, "Addres 123","Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithHomeAddres(HomeAddres: String): User {
-		return User("FirstNAme", "LastName", "email@email.com", HomeAddres, "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithPassword(Password: String): User {
-		return User("FirstNAme", "LastName", "email@email.com", "Addres 123", Password, "MercadoPagoCVU12345678", "Address1",100 )
-	}
-
-	private fun aUserWithMPCVU(MPCVU: String): User {
-		return User("FirstNAme", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", MPCVU, "Address1",100 )
-	}
-
-	private fun aUserWithWalletAddress(MPCVU: String): User {
-		return User("FirstNAme", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", MPCVU, "Address1",100 )
-	}
-
-	@Test
-	fun currencyCreation() {
-		val currency = aCurrency()
-		assertNotNull(currency.name)
-		assertNotNull(currency.ticker)
-	}
+	val userBuilder = UserBuilder()
 
 	@Test
 	fun userCreation() {
-		val user = aUser()
+		val user = userBuilder.createUserWithValues().build()
 		assertNotNull(user.FirstName)
 		assertNotNull(user.LastName)
 		assertNotNull(user.Email)
@@ -68,82 +26,117 @@ class ModelTests {
 
 	@Test
 	fun userCreationWithLessThan3CharacterFirstNameThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithFirstName("A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().firstName("A").build()}
 	}
 
 	@Test
 	fun userCreationWithMoreThan30CharacterFirstNameThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithFirstName("123456789012345678901234567890A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().firstName("UnNombreLargo45678901234567890A").build()}
+	}
+
+	@Test
+	fun userCreationWithMoreThan3AndLessThan30CharacterFirstNameDoesntThrowException() {
+		assertDoesNotThrow {userBuilder.createUserWithValues().firstName("UnNombre").build()}
 	}
 
 	@Test
 	fun userCreationWithLessThan3CharacterLastNameThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithLastName("A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().lastName("A").build()}
 	}
 
 	@Test
 	fun userCreationWithMoreThan30CharacterLastNameThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithLastName("123456789012345678901234567890A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().lastName("UnNombreLargo45678901234567890A").build()}
 	}
 
 	@Test
-	fun userCreationWithoutEmailThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithEmail("")}
+	fun userCreationWithMoreThan3AndLessThan30CharacterLastNameDoesntThrowException() {
+		assertDoesNotThrow {userBuilder.createUserWithValues().lastName("UnNombre").build()}
+	}
+
+	@Test
+	fun userCreationWithEmptyEmailThrowsException() {
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().email("").build()}
 	}
 
 	@Test
 	fun userCreationWithWrongFormatEmailThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithEmail("unMail")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().email("unMail").build()}
 	}
 
 	@Test
 	fun userCreationWithCorrectFormatEmailNotThrowsException() {
-		assertDoesNotThrow {aUserWithEmail("unMail@gmail.com")}
+		assertDoesNotThrow {userBuilder.createUserWithValues().email("unMail@gmail.com").build()}
 	}
 
 	@Test
 	fun userCreationWithLessThan10CharacterHomeAddressThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithHomeAddres("A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().homeAddress("A").build()}
 	}
 
 	@Test
 	fun userCreationWithMoreThan30CharacterHomeAddressThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithHomeAddres("123456789012345678901234567890A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().homeAddress("123456789012345678901234567890A").build()}
+	}
+
+	@Test
+	fun userCreationWithEmptyHomeAddressThrowsException() {
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().homeAddress("").build()}
+	}
+
+	@Test
+	fun userCreationWithMoreThan10AndLessThan30CharacterHomeAddressDoesntThrowException() {
+		assertDoesNotThrow {userBuilder.createUserWithValues().homeAddress("12345678901234567890123456789").build()}
 	}
 
 	@Test
 	fun userCreationWithoutHomeAddressThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithHomeAddres("")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().homeAddress("").build()}
 	}
 
 	@Test
 	fun userCreationWithWeakPasswordThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithPassword("pass")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().password("pass").build()}
 	}
 
 	@Test
 	fun userCreationWithStrongPasswordNotThrowsException() {
-		assertDoesNotThrow {aUserWithPassword("Super#Strong123Pass")}
+		assertDoesNotThrow {userBuilder.createUserWithValues().password("Super#Strong123Pass").build()}
+	}
+
+	@Test
+	fun userCreationWithEmptyPasswordThrowsException() {
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().password("").build()}
 	}
 
 	@Test
 	fun userCreationWithMoreThan22CharacterMPCVUThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithMPCVU("123456789012345678901234567890A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().mercadoPagoCVU("123456789012345678901234567890A").build()}
 	}
 
 	@Test
 	fun userCreationWithLessThan22CharacterMPCVUThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithMPCVU("A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().mercadoPagoCVU("A").build()}
+	}
+
+	@Test
+	fun userCreationWith22CharacterMPCVUDoesntThrowException() {
+		assertDoesNotThrow{userBuilder.createUserWithValues().mercadoPagoCVU("0123456789012345678912").build()}
 	}
 
 	@Test
 	fun userCreationWithMoreThan8CharacterAddressWallethrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithWalletAddress("123456789")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().walletAddress("123456789").build()}
 	}
 
 	@Test
 	fun userCreationWithLessThan8CharacterAddressWalletThrowsException() {
-		assertThrows<IllegalArgumentException> {aUserWithWalletAddress("A")}
+		assertThrows<IllegalArgumentException> {userBuilder.createUserWithValues().walletAddress("A").build()}
+	}
+
+	@Test
+	fun userCreationWith8CharacterAddressWalletDoesntThrowException() {
+		assertDoesNotThrow{userBuilder.createUserWithValues().walletAddress("12345678").build()}
 	}
 	
 }

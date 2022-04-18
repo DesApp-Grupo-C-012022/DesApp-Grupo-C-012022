@@ -1,17 +1,52 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
-class User(var FirstName: String, var LastName: String, var Email: String, var HomeAddress: String, var Password: String, var MercadoPagoCVU: String, var WalletAddress: String, var Reputation: Int) {
-
-    init {
-        validateFirstName()
-        validateLastName()
-        validateEmail()
-        validateHomeAddres()
-        validatePass()
-        validateMPCVU()
-    }
+class User(FirstName: String, LastName: String, Email: String, HomeAddress: String, Password: String, MercadoPagoCVU: String, WalletAddress: String, var Reputation: Int) {
 
     //TODO: Modificar excepciones lanzadas
+
+    var FirstName: String = ""
+        set(value) {
+            field = value
+            validateFirstName()
+        }
+
+    var LastName: String = ""
+        set(value) {
+            field = value
+            validateLastName()
+        }
+
+    var Email: String = ""
+        set(value) {
+            field = value
+            validateEmail()
+        }
+
+    var HomeAddress: String = ""
+        set(value) {
+            field = value
+            validateHomeAddres()
+        }
+
+
+    var MercadoPagoCVU: String = ""
+        set(value) {
+            field = value
+            validateMPCVU()
+        }
+
+
+    var Password: String = ""
+        set(value) {
+            field = value
+            validatePass()
+        }
+
+    var WalletAddress: String = ""
+        set(value) {
+            field = value
+            validateWalletAddress()
+        }
 
     private fun validateFirstName() {
         if (FirstName.length < 3)
@@ -28,7 +63,7 @@ class User(var FirstName: String, var LastName: String, var Email: String, var H
     }
 
     private fun validateEmail() {
-        if (Email.isNullOrEmpty())
+        if (Email.isEmpty())
             throw IllegalArgumentException()
         if (!isEmailValid(Email))
             throw IllegalArgumentException()
@@ -39,12 +74,12 @@ class User(var FirstName: String, var LastName: String, var Email: String, var H
             throw IllegalArgumentException()
         if (HomeAddress.length > 30)
             throw IllegalArgumentException()
-        if (HomeAddress.isNullOrEmpty())
+        if (HomeAddress.isEmpty())
             throw IllegalArgumentException()
     }
 
     private fun validatePass() {
-        if (Password.isNullOrEmpty())
+        if (Password.isEmpty())
             throw IllegalArgumentException()
         if (!isPassStrong(Password))
             throw IllegalArgumentException()
@@ -52,6 +87,11 @@ class User(var FirstName: String, var LastName: String, var Email: String, var H
 
     private fun validateMPCVU() {
         if (MercadoPagoCVU.length != 22)
+            throw IllegalArgumentException()
+    }
+
+    private fun validateWalletAddress() {
+        if (WalletAddress.length != 8)
             throw IllegalArgumentException()
     }
 
@@ -64,7 +104,4 @@ class User(var FirstName: String, var LastName: String, var Email: String, var H
         val PASS_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$ %^&*-]).{8,}\$"
         return PASS_REGEX.toRegex().matches(email)
     }
-
-
-
 }
