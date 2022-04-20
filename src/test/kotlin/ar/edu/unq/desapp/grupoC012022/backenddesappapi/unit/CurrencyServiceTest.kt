@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.unit
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CurrencyNotSupportedException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.ExternalApiHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import org.junit.jupiter.api.Test

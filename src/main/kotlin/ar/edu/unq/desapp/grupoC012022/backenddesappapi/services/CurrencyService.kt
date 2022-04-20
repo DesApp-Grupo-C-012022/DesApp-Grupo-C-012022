@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CurrencyNotSupportedException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
