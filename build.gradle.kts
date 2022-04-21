@@ -59,6 +59,11 @@ tasks.jacocoTestReport {
 	reports {
 		xml.required.set(true)
 	}
+	classDirectories.setFrom(files(classDirectories.files.map {
+		fileTree(it).apply {
+			exclude("**/apis/*")
+		}
+	}))
 }
 
 tasks.sonarqube {
