@@ -14,7 +14,8 @@ class UserValidator {
     lateinit var userRepository: UserRepository
 
     fun validateUser(user: User) {
-        if (userRepository.findByEmail(user.email) != null) {
+        val userFromDb = userRepository.findByEmail(user.email)
+        if (userFromDb != null && user.id != userFromDb.id) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN, "The user already exists")
         }
     }

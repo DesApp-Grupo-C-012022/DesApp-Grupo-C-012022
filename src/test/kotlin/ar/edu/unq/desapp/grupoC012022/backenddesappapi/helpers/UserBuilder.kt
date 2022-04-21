@@ -45,12 +45,17 @@ class UserBuilder {
         return this
     }
 
+    fun id(id: Int): UserBuilder {
+        user.id = id
+        return this
+    }
+
     fun build(): User {
-        return user;
+        return user
     }
 
     fun createUserWithValues(): UserBuilder {
         user = User(0, "Name", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1", 100)
-        return this;
+        return this
     }
 }
