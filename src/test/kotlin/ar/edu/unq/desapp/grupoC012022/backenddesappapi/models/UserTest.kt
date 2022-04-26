@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertNotNull

@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import org.mockito.Mockito.`when`

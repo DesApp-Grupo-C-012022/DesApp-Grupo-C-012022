@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.validators
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException

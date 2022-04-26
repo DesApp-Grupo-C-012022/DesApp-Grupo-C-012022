@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
