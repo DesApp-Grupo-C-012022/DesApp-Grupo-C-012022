@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.unit
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -12,7 +13,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
-import org.springframework.web.server.ResponseStatusException
 
 class UserValidatorTest {
 
@@ -47,7 +47,7 @@ class UserValidatorTest {
             .lastName("Rodriguez")
             .email("someawesomeemail@testing.com")
             .build()
-        assertThrows<ResponseStatusException> { subject.validateUser(otherUser) }
+        assertThrows<UserAlreadyExistsException> { subject.validateUser(otherUser) }
     }
 
     @Test

@@ -1,81 +1,34 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(value = ["id", "reputation"], allowGetters = true)
 class User(
-    id: Int,
-    firstName: String,
-    lastName: String,
-    email: String,
-    homeAddress: String,
-    password: String,
-    mercadoPagoCVU: String,
-    walletAddress: String,
-    reputation: Int
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
+    @Column(nullable = false) var firstName: String,
+    @Column(nullable = false) var lastName: String,
+    @Column(nullable = false, unique = true) var email: String,
+    @Column(nullable = false) var homeAddress: String,
+    @Column(nullable = false) var password: String,
+    @Column(nullable = false, name = "mercado_pago_cvu") var mercadoPagoCVU: String,
+    @Column(nullable = false) var walletAddress: String,
+    @Schema(hidden = true) @Column(nullable = false) var reputation: Int? = 0
 ) {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    var id: Int = 0
-
-    @Column(nullable = false)
-    var firstName: String = ""
-        set(value) {
-            field = value
-            validateFirstName()
-        }
-
-    @Column(nullable = false)
-    var lastName: String = ""
-        set(value) {
-            field = value
-            validateLastName()
-        }
-
-    @Column(nullable = false, unique = true)
-    var email: String = ""
-        set(value) {
-            field = value
-            validateEmail()
-        }
-
-    @Column(nullable = false)
-    var homeAddress: String = ""
-        set(value) {
-            field = value
-            validateHomeAddres()
-        }
-
-    @Column(nullable = false, name = "mercado_pago_cvu")
-    var mercadoPagoCVU: String = ""
-        set(value) {
-            field = value
-            validateMPCVU()
-        }
-
-
-    @Column(nullable = false)
-    var password: String = ""
-        set(value) {
-            field = value
-            validatePass()
-        }
-
-    @Column(nullable = false)
-    var walletAddress: String = ""
-        set(value) {
-            field = value
-            validateWalletAddress()
-        }
-    
-    @Column(nullable = false)
-    var reputation: Int = 0
-        set(value) {
-            field = value
-        }
+    fun validate() {
+        validateFirstName()
+        validateLastName()
+        validateEmail()
+        validateHomeAddres()
+        validatePass()
+        validateMPCVU()
+        validateWalletAddress()
+    }
 
     private fun validateFirstName() {
         if (firstName.length < 3)

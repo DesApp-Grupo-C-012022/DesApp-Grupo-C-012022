@@ -1,22 +1,38 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.unit
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.BinanceApiMockBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.ExternalApiHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 
 class CurrencyServiceTest {
-	private var binanceApiMock: BinanceApi = ExternalApiHelper.getBinanceApiMock()
-	private var subject: CurrencyService = CurrencyService(binanceApiMock)
+
+	@Mock
+	private lateinit var binanceApiMock : BinanceApi
+
+	@InjectMocks
+	private lateinit var subject : CurrencyService
+
+	@BeforeEach
+	fun setUp() {
+		MockitoAnnotations.openMocks(this)
+		val binanceApiMockBuilder = BinanceApiMockBuilder(this.binanceApiMock)
+		binanceApiMockBuilder
+			.mockCurrency("BNB", "1.01")
+			.mockCurrency("BTC", "40000.1254")
+			.prepareMock()
+	}
 
 	@Test
 	fun getCriptosTest() {
-		this.subject = mock(CurrencyService::class.java, withSettings().useConstructor(binanceApiMock).defaultAnswer(CALLS_REAL_METHODS))
-		`when`(this.subject.supportedCurrencies()).thenReturn(listOf("BNB", "BTC"))
 		val criptos = this.subject.getCurrencies("USDT")
 		assertEquals(2, criptos.size)
 	}

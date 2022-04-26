@@ -3,7 +3,17 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 
 class UserBuilder {
-    private var user: User = User(0,"Name", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1", 100)
+    private var user: User = User(
+        0,
+        "Name",
+        "LastName",
+        "email@email.com",
+        "Addres 123",
+        "Super#Strong123Pass",
+        "MercadoPagoCVU12345678",
+        "Address1",
+        100
+    )
 
     fun firstName(firstName: String): UserBuilder {
         user.firstName = firstName
@@ -55,7 +65,17 @@ class UserBuilder {
     }
 
     fun createUserWithValues(): UserBuilder {
-        user = User(0, "Name", "LastName", "email@email.com", "Addres 123", "Super#Strong123Pass", "MercadoPagoCVU12345678", "Address1", 100)
+        user = User(
+            0,
+            "Name",
+            "LastName",
+            "email@email.com",
+            "Addres 123",
+            "Super#Strong123Pass",
+            "MercadoPagoCVU12345678",
+            "Address1",
+            100
+        )
         return this
     }
 }
