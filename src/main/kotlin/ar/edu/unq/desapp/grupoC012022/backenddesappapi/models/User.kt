@@ -4,45 +4,45 @@ class User(FirstName: String, LastName: String, Email: String, HomeAddress: Stri
 
     //TODO: Modificar excepciones lanzadas
 
-    var FirstName: String = ""
+    var FirstName: String = FirstName
         set(value) {
             field = value
             validateFirstName()
         }
 
-    var LastName: String = ""
+    var LastName: String = LastName
         set(value) {
             field = value
             validateLastName()
         }
 
-    var Email: String = ""
+    var Email: String = Email
         set(value) {
             field = value
             validateEmail()
         }
 
-    var HomeAddress: String = ""
+    var HomeAddress: String = HomeAddress
         set(value) {
             field = value
             validateHomeAddres()
         }
 
 
-    var MercadoPagoCVU: String = ""
+    var MercadoPagoCVU: String = MercadoPagoCVU
         set(value) {
             field = value
             validateMPCVU()
         }
 
 
-    var Password: String = ""
+    var Password: String = Password
         set(value) {
             field = value
             validatePass()
         }
 
-    var WalletAddress: String = ""
+    var WalletAddress: String = WalletAddress
         set(value) {
             field = value
             validateWalletAddress()
