@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 

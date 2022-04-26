@@ -1,13 +1,12 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.model
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.springframework.boot.test.context.SpringBootTest
 
-class ModelTests {
+class UserTests {
 
 	val userBuilder = UserBuilder()
 
