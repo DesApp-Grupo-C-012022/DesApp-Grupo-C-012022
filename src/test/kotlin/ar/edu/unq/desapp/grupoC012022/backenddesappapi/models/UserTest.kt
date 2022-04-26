@@ -24,7 +24,7 @@ class UserTest {
 	}
 
 	@Test
-	fun userCreationWithLessThan3CharacterFirstNameThrowsException() {
+	fun validatingUserWithLessThan3CharacterFirstNameThrowsException() {
 		assertThrows<InvalidPropertyException> {
 			val user = userBuilder.createUserWithValues().firstName("A").build()
 			user.validate()
@@ -32,112 +32,112 @@ class UserTest {
 	}
 
 	@Test
-	fun userCreationWithMoreThan30CharacterFirstNameThrowsException() {
+	fun validatingUserWithMoreThan30CharacterFirstNameThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().firstName("UnNombreLargo45678901234567890A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan3AndLessThan30CharacterFirstNameDoesntThrowException() {
+	fun validatingUserWithMoreThan3AndLessThan30CharacterFirstNameDoesntThrowException() {
 		assertDoesNotThrow {userBuilder.createUserWithValues().firstName("UnNombre").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithLessThan3CharacterLastNameThrowsException() {
+	fun validatingUserWithLessThan3CharacterLastNameThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().lastName("A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan30CharacterLastNameThrowsException() {
+	fun validatingUserWithMoreThan30CharacterLastNameThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().lastName("UnNombreLargo45678901234567890A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan3AndLessThan30CharacterLastNameDoesntThrowException() {
+	fun validatingUserWithMoreThan3AndLessThan30CharacterLastNameDoesntThrowException() {
 		assertDoesNotThrow {userBuilder.createUserWithValues().lastName("UnNombre").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithEmptyEmailThrowsException() {
+	fun validatingUserWithEmptyEmailThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().email("").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithWrongFormatEmailThrowsException() {
+	fun validatingUserWithWrongFormatEmailThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().email("unMail").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithCorrectFormatEmailNotThrowsException() {
+	fun validatingUserWithCorrectFormatEmailNotThrowsException() {
 		assertDoesNotThrow {userBuilder.createUserWithValues().email("unMail@gmail.com").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithLessThan10CharacterHomeAddressThrowsException() {
+	fun validatingUserWithLessThan10CharacterHomeAddressThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().homeAddress("A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan30CharacterHomeAddressThrowsException() {
+	fun validatingUserWithMoreThan30CharacterHomeAddressThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().homeAddress("123456789012345678901234567890A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithEmptyHomeAddressThrowsException() {
+	fun validatingUserWithEmptyHomeAddressThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().homeAddress("").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan10AndLessThan30CharacterHomeAddressDoesntThrowException() {
+	fun validatingUserWithMoreThan10AndLessThan30CharacterHomeAddressDoesntThrowException() {
 		assertDoesNotThrow {userBuilder.createUserWithValues().homeAddress("12345678901234567890123456789").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithoutHomeAddressThrowsException() {
+	fun validatingUserWithoutHomeAddressThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().homeAddress("").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithWeakPasswordThrowsException() {
+	fun validatingUserWithWeakPasswordThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().password("pass").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithStrongPasswordNotThrowsException() {
+	fun validatingUserWithStrongPasswordNotThrowsException() {
 		assertDoesNotThrow {userBuilder.createUserWithValues().password("Super#Strong123Pass").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithEmptyPasswordThrowsException() {
+	fun validatingUserWithEmptyPasswordThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().password("").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan22CharacterMPCVUThrowsException() {
+	fun validatingUserWithMoreThan22CharacterMPCVUThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().mercadoPagoCVU("123456789012345678901234567890A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithLessThan22CharacterMPCVUThrowsException() {
+	fun validatingUserWithLessThan22CharacterMPCVUThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().mercadoPagoCVU("A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWith22CharacterMPCVUDoesntThrowException() {
+	fun validatingUserWith22CharacterMPCVUDoesntThrowException() {
 		assertDoesNotThrow{userBuilder.createUserWithValues().mercadoPagoCVU("0123456789012345678912").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithMoreThan8CharacterAddressWallethrowsException() {
+	fun validatingUserWithMoreThan8CharacterAddressWallethrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().walletAddress("123456789").build().validate()}
 	}
 
 	@Test
-	fun userCreationWithLessThan8CharacterAddressWalletThrowsException() {
+	fun validatingUserWithLessThan8CharacterAddressWalletThrowsException() {
 		assertThrows<InvalidPropertyException> {userBuilder.createUserWithValues().walletAddress("A").build().validate()}
 	}
 
 	@Test
-	fun userCreationWith8CharacterAddressWalletDoesntThrowException() {
+	fun validatingUserWith8CharacterAddressWalletDoesntThrowException() {
 		assertDoesNotThrow{userBuilder.createUserWithValues().walletAddress("12345678").build().validate()}
 	}
 }
