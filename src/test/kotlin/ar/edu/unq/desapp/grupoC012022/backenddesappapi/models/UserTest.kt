@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi.model
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class UserTests {
+class UserTest {
 	private val userBuilder = UserBuilder()
 
 	@Test

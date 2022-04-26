@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class PriceTests {
+class PriceTest {
 	private val priceBuilder = PriceBuilder()
 
 	@Test
