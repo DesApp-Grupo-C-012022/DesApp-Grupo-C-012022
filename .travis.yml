@@ -10,6 +10,8 @@ before_install:
   – chmod +x gradlew
   - sudo mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD('root') WHERE User='root';"
   - sudo service mysql restart
+
+before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS criptop2p;'
 
 addons:
