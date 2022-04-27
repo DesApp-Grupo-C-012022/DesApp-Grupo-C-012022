@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class PriceTests {
-	val priceBuilder = PriceBuilder()
+	private val priceBuilder = PriceBuilder()
 
 	@Test
 	fun priceCreation() {

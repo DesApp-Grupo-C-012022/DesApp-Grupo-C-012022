@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class OrderTests {
-    val orderBuilder: OrderBuilder = OrderBuilder()
+    private val orderBuilder: OrderBuilder = OrderBuilder()
 
     @Test
     fun orderCreation() {
