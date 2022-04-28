@@ -10,8 +10,8 @@ before_install:
   - sudo mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD('root') WHERE User='root';"
   - sudo service mysql restart
 
-before_script:
-  - sudo mysql -u root -p root -e "CREATE DATABASE IF NOT EXISTS criptop2p;"
+#before_script:
+#  - sudo mysql -u root -p root -e "CREATE DATABASE IF NOT EXISTS criptop2p;"
 
 addons:
   sonarcloud:
