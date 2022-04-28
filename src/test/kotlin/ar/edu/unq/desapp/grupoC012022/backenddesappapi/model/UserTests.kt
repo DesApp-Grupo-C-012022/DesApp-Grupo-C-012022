@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class UserTests {
-
-	val userBuilder = UserBuilder()
+	private val userBuilder = UserBuilder()
 
 	@Test
 	fun userCreation() {
