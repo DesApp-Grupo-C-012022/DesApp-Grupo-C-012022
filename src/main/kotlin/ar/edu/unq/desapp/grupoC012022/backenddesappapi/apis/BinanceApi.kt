@@ -1,6 +1,5 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate

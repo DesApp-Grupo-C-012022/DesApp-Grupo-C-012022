@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.TransactionBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,7 +25,7 @@ class TransactionTest {
 
     @Test
     fun validatingTransactionWithNegativeAmountThrowsException() {
-        assertThrows<IllegalArgumentException> {transactionBuilder.createTransactionWithValues().amount(-5).build().validate()}
+        assertThrows<InvalidPropertyException> {transactionBuilder.createTransactionWithValues().amount(-5).build().validate()}
     }
 
     @Test
@@ -39,7 +40,7 @@ class TransactionTest {
 
     @Test
     fun validatingTransactionWithNegativeQuantityThrowsException() {
-        assertThrows<IllegalArgumentException> {transactionBuilder.createTransactionWithValues().quantity(-5).build().validate()}
+        assertThrows<InvalidPropertyException> {transactionBuilder.createTransactionWithValues().quantity(-5).build().validate()}
     }
 
     @Test
@@ -54,7 +55,7 @@ class TransactionTest {
 
     @Test
     fun validatingTransactionWithEmptyDestinationAddressThrowsException() {
-        assertThrows<IllegalArgumentException> {transactionBuilder.createTransactionWithValues().destinationAddress("").build().validate()}
+        assertThrows<InvalidPropertyException> {transactionBuilder.createTransactionWithValues().destinationAddress("").build().validate()}
     }
 
     @Test
@@ -64,7 +65,7 @@ class TransactionTest {
 
     @Test
     fun validatingTransactionWithNegativeOperationQuantityThrowsException() {
-        assertThrows<IllegalArgumentException> {transactionBuilder.createTransactionWithValues().operationQuantity(-5).build().validate()}
+        assertThrows<InvalidPropertyException> {transactionBuilder.createTransactionWithValues().operationQuantity(-5).build().validate()}
     }
 
     @Test

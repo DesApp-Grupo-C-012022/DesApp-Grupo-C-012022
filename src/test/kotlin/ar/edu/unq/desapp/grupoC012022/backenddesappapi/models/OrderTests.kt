@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -20,12 +21,12 @@ class OrderTests {
 
     @Test
     fun validatingOrderWithNegativeQuantityThrowsException() {
-        assertThrows<IllegalArgumentException> {orderBuilder.createOrderWithValues().quantity(-5).build().validate()}
+        assertThrows<InvalidPropertyException> {orderBuilder.createOrderWithValues().quantity(-5).build().validate()}
     }
 
     @Test
     fun validatingOrderWithNegativeTotalArsPriceThrowsException() {
-        assertThrows<IllegalArgumentException> {orderBuilder.createOrderWithValues().totalArsPrice(-5).build().validate()}
+        assertThrows<InvalidPropertyException> {orderBuilder.createOrderWithValues().totalArsPrice(-5).build().validate()}
     }
 
     @Test

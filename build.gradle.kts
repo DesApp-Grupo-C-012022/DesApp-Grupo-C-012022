@@ -61,8 +61,8 @@ tasks.jacocoTestReport {
 		xml.required.set(true)
 	}
 	classDirectories.setFrom(files(classDirectories.files.map {
-		fileTree(it).apply {
-			exclude("**/apis/*")
+		fileTree(it) {
+			exclude("**/apis/**")
 		}
 	}))
 }
