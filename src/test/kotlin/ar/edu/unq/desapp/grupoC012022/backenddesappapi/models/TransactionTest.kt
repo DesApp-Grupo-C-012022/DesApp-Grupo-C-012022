@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi.model
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.TransactionBuilder
 import org.junit.jupiter.api.Assertions
