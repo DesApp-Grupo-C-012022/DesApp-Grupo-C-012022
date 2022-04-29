@@ -4,14 +4,12 @@ jdk:
   - openjdk11
 
 services:
-  - mysql
+  - postgresql
 
 before_install:
-  - sudo mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD('root') WHERE User='root';"
-  - sudo service mysql restart
-
-#before_script:
-#  - sudo mysql -u root -p root -e "CREATE DATABASE IF NOT EXISTS criptop2p;"
+#  - sudo mysql -e "UPDATE mysql.user SET authentication_string=PASSWORD('root') WHERE User='root';"
+  - psql -c 'create database criptop2p;' -U postgres
+#  - sudo service mysql restart
 
 addons:
   sonarcloud:

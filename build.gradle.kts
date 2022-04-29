@@ -27,7 +27,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
-	implementation("mysql:mysql-connector-java:8.0.28")
+	implementation("org.postgresql:postgresql:42.3.4")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.6.7")
