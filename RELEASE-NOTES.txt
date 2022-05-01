@@ -1,0 +1,23 @@
+------------------------------------------------------------
+TAG ENTREGA-1 v1.0
+------------------------------------------------------------
+
+NEW FEATURES
+* Entity models:
+    -Users
+    -Currency
+    -Price
+    -Order & Operation
+    -Transaction & Status
+* User registration
+* Swagger
+* Heroku
+* SonarCloud
+* Travis
+
+NOTES
+* Implement Spring Profiles to separate dev from prod environment
+* Implement H2 database for dev environment
+* Modify integration tests to use the database instead of mocks
+* Improve coverage: Currently jacoco is not evaluating correctly lateinit variables.
+* Improve error message when throwing 422 by adding the problematic field into the response body
