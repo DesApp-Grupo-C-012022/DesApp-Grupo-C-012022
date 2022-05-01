@@ -1,11 +1,12 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi.model
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-class PriceTests {
+class PriceTest {
 	private val priceBuilder = PriceBuilder()
 
 	@Test
@@ -19,6 +20,6 @@ class PriceTests {
 
 	@Test
 	fun priceCreationWithNegativeSellingPriceThrowsException() {
-		assertThrows<IllegalArgumentException> {priceBuilder.createPriceWithValues().sellingPrice(-5).build()}
+		assertThrows<InvalidPropertyException> {priceBuilder.createPriceWithValues().sellingPrice(-5).build()}
 	}
 }

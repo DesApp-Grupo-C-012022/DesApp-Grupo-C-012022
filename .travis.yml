@@ -1,13 +1,21 @@
 language: java
+
 jdk:
   - openjdk11
+
+services:
+  - postgresql
+
 before_install:
-  – chmod +x gradlew
+  - psql -c 'create database criptop2p;' -U postgres
+
 addons:
   sonarcloud:
     organization: "ggoffredo-jcvincenti"
+
 script:
   - ./gradlew jacocoTestReport sonarqube
+
 # safelist
 branches:
   only:

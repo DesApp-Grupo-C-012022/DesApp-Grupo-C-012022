@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import java.time.LocalDateTime
 
 
@@ -18,6 +19,6 @@ class Price(var bidCurrency: Currency, sellingPrice: Long, var askCurrency: Curr
 
     private fun validateSellingPrice() {
         if (sellingPrice < 0)
-            throw IllegalArgumentException()
+            throw InvalidPropertyException()
     }
 }

@@ -27,12 +27,15 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
+	implementation("org.postgresql:postgresql:42.3.4")
+	implementation("org.apache.tomcat:tomcat-jdbc:10.1.0-M14")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.6.7")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("com.google.code.gson:gson:2.9.0")
 }
 
 sonarqube {
@@ -58,6 +61,11 @@ tasks.jacocoTestReport {
 	reports {
 		xml.required.set(true)
 	}
+	classDirectories.setFrom(files(classDirectories.files.map {
+		fileTree(it) {
+			exclude("**/apis/**")
+		}
+	}))
 }
 
 tasks.sonarqube {

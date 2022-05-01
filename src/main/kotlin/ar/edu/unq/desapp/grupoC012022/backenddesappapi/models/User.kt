@@ -1,98 +1,80 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
-class User(FirstName: String, LastName: String, Email: String, HomeAddress: String, Password: String, MercadoPagoCVU: String, WalletAddress: String, var Reputation: Int) {
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import io.swagger.v3.oas.annotations.media.Schema
+import javax.persistence.*
 
-    //TODO: Modificar excepciones lanzadas
+@Entity
+@Table(name = "users")
+@JsonIgnoreProperties(value = ["id", "reputation"], allowGetters = true)
+class User(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
+    @Column(nullable = false) var firstName: String,
+    @Column(nullable = false) var lastName: String,
+    @Column(nullable = false, unique = true) var email: String,
+    @Column(nullable = false) var homeAddress: String,
+    @Column(nullable = false) var password: String,
+    @Column(nullable = false, name = "mercado_pago_cvu") var mercadoPagoCVU: String,
+    @Column(nullable = false) var walletAddress: String,
+    @Schema(hidden = true) @Column(nullable = false) var reputation: Int? = 0
+) {
 
-    var FirstName: String = FirstName
-        set(value) {
-            field = value
-            validateFirstName()
-        }
-
-    var LastName: String = LastName
-        set(value) {
-            field = value
-            validateLastName()
-        }
-
-    var Email: String = Email
-        set(value) {
-            field = value
-            validateEmail()
-        }
-
-    var HomeAddress: String = HomeAddress
-        set(value) {
-            field = value
-            validateHomeAddres()
-        }
-
-
-    var MercadoPagoCVU: String = MercadoPagoCVU
-        set(value) {
-            field = value
-            validateMPCVU()
-        }
-
-
-    var Password: String = Password
-        set(value) {
-            field = value
-            validatePass()
-        }
-
-    var WalletAddress: String = WalletAddress
-        set(value) {
-            field = value
-            validateWalletAddress()
-        }
+    fun validate() {
+        validateFirstName()
+        validateLastName()
+        validateEmail()
+        validateHomeAddres()
+        validatePass()
+        validateMPCVU()
+        validateWalletAddress()
+    }
 
     private fun validateFirstName() {
-        if (FirstName.length < 3)
-            throw IllegalArgumentException()
-        if (FirstName.length > 30)
-            throw IllegalArgumentException()
+        if (firstName.length < 3)
+            throw InvalidPropertyException()
+        if (firstName.length > 30)
+            throw InvalidPropertyException()
     }
 
     private fun validateLastName() {
-        if (LastName.length < 3)
-            throw IllegalArgumentException()
-        if (LastName.length > 30)
-            throw IllegalArgumentException()
+        if (lastName.length < 3)
+            throw InvalidPropertyException()
+        if (lastName.length > 30)
+            throw InvalidPropertyException()
     }
 
     private fun validateEmail() {
-        if (Email.isEmpty())
-            throw IllegalArgumentException()
-        if (!isEmailValid(Email))
-            throw IllegalArgumentException()
+        if (email.isEmpty())
+            throw InvalidPropertyException()
+        if (!isEmailValid(email))
+            throw InvalidPropertyException()
     }
 
     private fun validateHomeAddres() {
-        if (HomeAddress.length < 10)
-            throw IllegalArgumentException()
-        if (HomeAddress.length > 30)
-            throw IllegalArgumentException()
-        if (HomeAddress.isEmpty())
-            throw IllegalArgumentException()
+        if (homeAddress.length < 10)
+            throw InvalidPropertyException()
+        if (homeAddress.length > 30)
+            throw InvalidPropertyException()
+        if (homeAddress.isEmpty())
+            throw InvalidPropertyException()
     }
 
     private fun validatePass() {
-        if (Password.isEmpty())
-            throw IllegalArgumentException()
-        if (!isPassStrong(Password))
-            throw IllegalArgumentException()
+        if (password.isEmpty())
+            throw InvalidPropertyException()
+        if (!isPassStrong(password))
+            throw InvalidPropertyException()
     }
 
     private fun validateMPCVU() {
-        if (MercadoPagoCVU.length != 22)
-            throw IllegalArgumentException()
+        if (mercadoPagoCVU.length != 22)
+            throw InvalidPropertyException()
     }
 
     private fun validateWalletAddress() {
-        if (WalletAddress.length != 8)
-            throw IllegalArgumentException()
+        if (walletAddress.length != 8)
+            throw InvalidPropertyException()
     }
 
     private fun isEmailValid(email: String): Boolean {
