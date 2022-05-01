@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.BinanceApiMockBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
@@ -9,13 +10,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 class CurrencyServiceTest {
 
 	@Mock
 	private lateinit var binanceApiMock : BinanceApi
-
+	@Mock
+	private lateinit var currencyRepositoryMock: CurrencyRepository
 	@InjectMocks
 	private lateinit var subject : CurrencyService
 
@@ -27,6 +30,8 @@ class CurrencyServiceTest {
 			.mockCurrency("BNB", "1.01")
 			.mockCurrency("BTC", "40000.1254")
 			.prepareMock()
+		Mockito.`when`(this.currencyRepositoryMock.findAll()).thenReturn(mutableListOf())
+		Mockito.`when`(this.currencyRepositoryMock.saveAll(Mockito.anyIterable())).thenReturn(mutableListOf())
 	}
 
 	@Test

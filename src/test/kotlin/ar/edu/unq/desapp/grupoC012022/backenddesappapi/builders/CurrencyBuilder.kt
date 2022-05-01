@@ -1,20 +1,21 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
+import java.time.LocalDateTime
 
 class CurrencyBuilder {
-    private var currency: Currency = Currency("BTC","50000")
+    private var currency: Currency = Currency("someId", "BTC","50000", LocalDateTime.now())
 
     fun build(): Currency {
-        return currency;
+        return currency
     }
 
     fun createCurrencyWithValues(): CurrencyBuilder {
-        return this;
+        return this
     }
 
     fun createUSD(): CurrencyBuilder {
-        currency = Currency("USD", "1")
-        return this;
+        currency = Currency("someId", "USD", "1", LocalDateTime.now())
+        return this
     }
 }
