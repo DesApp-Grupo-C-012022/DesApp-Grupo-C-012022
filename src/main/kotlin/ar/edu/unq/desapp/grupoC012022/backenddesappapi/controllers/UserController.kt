@@ -24,4 +24,11 @@ class UserController {
     fun save(@RequestBody user: User) : User {
         return userService.save(user)
     }
+
+    @GetMapping()
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    fun getUsers(): List<User?> {
+        return userService.getUsers()
+    }
 }

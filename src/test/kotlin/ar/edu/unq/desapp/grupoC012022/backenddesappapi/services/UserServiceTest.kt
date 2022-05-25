@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
@@ -60,5 +61,12 @@ class UserServiceTest {
 		`when`(userValidatorMock.validateUser(userToSave)).thenThrow(InvalidPropertyException::class.java)
 		assertThrows<InvalidPropertyException> { subject.save(userToSave) }
 		verify(userRepositoryMock, times(0)).save(userToSave)
+	}
+
+	@Test
+	fun getAllUserTest() {
+		val dbuser = user.id(1).build()
+		`when`(userRepositoryMock.findAll()).thenReturn(listOf(dbuser))
+		assert(subject.getUsers() == listOf(dbuser))
 	}
 }

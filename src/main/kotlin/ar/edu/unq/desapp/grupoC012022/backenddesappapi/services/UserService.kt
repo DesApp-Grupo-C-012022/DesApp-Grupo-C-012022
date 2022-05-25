@@ -21,4 +21,8 @@ class UserService {
         userValidator.validateUser(user)
         return userRepository.save(user)
     }
+
+    fun getUsers(): List<User?> {
+        return userRepository.findAll()
+    }
 }
