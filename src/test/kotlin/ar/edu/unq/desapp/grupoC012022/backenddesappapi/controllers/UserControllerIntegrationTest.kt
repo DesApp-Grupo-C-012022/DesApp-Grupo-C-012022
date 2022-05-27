@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -77,5 +79,25 @@ class UserControllerIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isUnprocessableEntity)
+    }
+
+
+    @Test
+    fun getUsersTest() {
+        `when`(this.userServiceMock.getUsers()).thenReturn(listOf(
+            userBuilder.createUserWithValues().firstName("usuario1").build(),
+            userBuilder.createUserWithValues().firstName("usuario2").build(),
+        ))
+        this.mockMvc.get("/users").andExpect {
+            status { isOk() }
+            content {
+                jsonPath("$.[0].firstName") {
+                    value("usuario1")
+                }
+                jsonPath("$.[1].firstName") {
+                    value("usuario2")
+                }
+            }
+        }
     }
 }
