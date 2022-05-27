@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
-  gradle: circleci/gradle@2.2.0
 jobs:
   build:
     working_directory: ~/repo
@@ -14,22 +13,10 @@ jobs:
       - image: cimg/python:3.10.4
     environment:
       JVM_OPTS: -Xmx3200m
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
       TERM: dumb
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            - v1-dependencies-
-      # - run: psql -c 'create database criptop2p;' -U postgres
       - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-
       - run: ./gradlew jacocoTestReport sonarqube
       - sonarcloud/scan
 workflows:
