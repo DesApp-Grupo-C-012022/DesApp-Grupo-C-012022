@@ -19,6 +19,8 @@ jobs:
       - checkout
       - run: gradle dependencies
       - run: ./gradlew jacocoTestReport sonarqube
+      - store_artifacts:
+          path: target
 workflows:
   version: 2
   build:
