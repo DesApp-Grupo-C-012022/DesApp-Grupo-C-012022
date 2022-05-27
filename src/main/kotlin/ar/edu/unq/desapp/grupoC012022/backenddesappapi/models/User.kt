@@ -76,8 +76,6 @@ open class User(
             throw InvalidPropertyException()
         if (homeAddress.length > 30)
             throw InvalidPropertyException()
-        if (homeAddress.isEmpty())
-            throw InvalidPropertyException()
     }
 
     private fun validatePass() {

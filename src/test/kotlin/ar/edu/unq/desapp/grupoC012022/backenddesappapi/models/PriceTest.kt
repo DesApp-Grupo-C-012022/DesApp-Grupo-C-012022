@@ -22,4 +22,12 @@ class PriceTest {
 	fun priceCreationWithNegativeSellingPriceThrowsException() {
 		assertThrows<InvalidPropertyException> {priceBuilder.createPriceWithValues().sellingPrice(-5).build()}
 	}
+
+	@Test
+	fun priceCorrectlyCreationButSettingAfterWithNegativeSellingPriceThrowsException() {
+		assertThrows<InvalidPropertyException> {
+			val price = priceBuilder.createPriceWithValues().sellingPrice(5).build()
+			price.sellingPrice = -5
+		}
+	}
 }
