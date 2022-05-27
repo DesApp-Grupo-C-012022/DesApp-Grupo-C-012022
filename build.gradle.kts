@@ -41,6 +41,8 @@ dependencies {
 sonarqube {
 	properties {
 		property("sonar.projectKey", "jcvincenti_DesApp-Grupo-C-012022")
+		property("sonar.organization", "ggoffredo-jcvincenti")
+		property("sonar.host.url", "https://sonarcloud.io")
 	}
 }
 
