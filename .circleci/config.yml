@@ -2,13 +2,15 @@ version: 2.1
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
-
+  gradle: circleci/gradle@2.2.0
 jobs:
   build:
     working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0.8
       - image: postgres:9.6
+        environment:
+          POSTGRES_HOST_AUTH_METHOD: trust
       - image: cimg/python:3.10.4
     environment:
       JVM_OPTS: -Xmx3200m
