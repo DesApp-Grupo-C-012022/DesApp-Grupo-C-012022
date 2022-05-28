@@ -19,7 +19,8 @@ jobs:
       - run: gradle dependencies
       - run: ./gradlew jacocoTestReport
       - store_artifacts:
-          path: build/reports/jacoco/test
+          path: build/reports/jacoco/test/jacocoTestReport.xml
+          destination: /build/reports/jacoco/test/jacocoTestReport.xml
       - run: ./gradlew sonarqube
 workflows:
   version: 2
