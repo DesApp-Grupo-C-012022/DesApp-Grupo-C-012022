@@ -1,10 +1,22 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
+import javax.persistence.*
 
 
-class Price(var bidCurrency: Currency, sellingPrice: Long, var askCurrency: Currency) {
+@Entity
+@Table(name = "prices")
+@JsonIgnoreProperties(value = ["id"], allowGetters = true)
+class Price(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
+    @Transient var bidCurrency: Currency,
+    sellingPrice: Long,
+    @Transient  var askCurrency: Currency
+) {
     val timestamp: LocalDateTime = LocalDateTime.now()
 
     init{
