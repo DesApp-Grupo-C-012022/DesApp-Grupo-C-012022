@@ -44,6 +44,7 @@ sonarqube {
 		property("sonar.organization", "ggoffredo-jcvincenti")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+		property("sonar.exclusions", "**/apis/**")
 	}
 }
 
