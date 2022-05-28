@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity
 class BinanceApiMockBuilder(private val binanceApiMock: BinanceApi) {
     private val mockedCurrencies = mutableListOf<String>()
 
-    fun mockCurrency(currency: String, price: String, referenceCurrency: String = "USDT") : BinanceApiMockBuilder {
+    fun mockCurrency(currency: String, price: Double, referenceCurrency: String = "USDT") : BinanceApiMockBuilder {
         val btcResponseEntityMock = mock(ResponseEntity::class.java)
         `when`(btcResponseEntityMock.body).thenReturn("{ \"symbol\" : \"$currency$referenceCurrency\", \"price\" : \"$price\" }")
         `when`(this.binanceApiMock.getCurrency(currency, referenceCurrency)).thenReturn(btcResponseEntityMock)

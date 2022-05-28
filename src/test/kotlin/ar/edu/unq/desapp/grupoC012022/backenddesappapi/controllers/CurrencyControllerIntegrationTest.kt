@@ -30,23 +30,23 @@ class CurrencyControllerIntegrationTest {
     @Test
     fun getCriptosTest() {
         `when`(this.currencyServiceMock.getCurrencies(null)).thenReturn(listOf(
-            Currency("BNBUSDT", "1.01"),
-            Currency("BTCUSDT", "40000.08"),
+            Currency("BNBUSDT", 1.01),
+            Currency("BTCUSDT", 40000.08),
         ))
-        this.mockMvc.get("/criptos").andExpect {
+        this.mockMvc.get("/currencies").andExpect {
             status { isOk() }
             content {
-                jsonPath("$.[0].symbol") {
+                jsonPath("$.[0].ticker") {
                     value("BNBUSDT")
                 }
-                jsonPath("$.[0].price") {
-                    value("1.01")
+                jsonPath("$.[0].usdPrice") {
+                    value(1.01)
                 }
-                jsonPath("$.[1].symbol") {
+                jsonPath("$.[1].ticker") {
                     value("BTCUSDT")
                 }
-                jsonPath("$.[1].price") {
-                    value("40000.08")
+                jsonPath("$.[1].usdPrice") {
+                    value(40000.08)
                 }
             }
         }
