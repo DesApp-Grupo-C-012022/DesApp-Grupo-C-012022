@@ -12,10 +12,10 @@ class CurrencyController {
     @Autowired
     private lateinit var currencyService: CurrencyService
 
-    @GetMapping("/criptos")
+    @GetMapping("/currencies")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun getCriptos(@RequestParam(required = false) referenceCurrency: String?): List<Currency?> {
+    fun getCurrencies(@RequestParam(required = false) referenceCurrency: String?): List<Currency?> {
         return currencyService.getCurrencies(referenceCurrency)
     }
 }

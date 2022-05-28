@@ -24,8 +24,8 @@ class CurrencyServiceTest {
 		MockitoAnnotations.openMocks(this)
 		val binanceApiMockBuilder = BinanceApiMockBuilder(this.binanceApiMock)
 		binanceApiMockBuilder
-			.mockCurrency("BNB", "1.01")
-			.mockCurrency("BTC", "40000.1254")
+			.mockCurrency("BNB", 1.01)
+			.mockCurrency("BTC", 40000.1254)
 			.prepareMock()
 	}
 
@@ -39,7 +39,7 @@ class CurrencyServiceTest {
 	fun getCriptoTest() {
 		val cripto = this.subject.getCurrency("BNB","USDT")
 		assertEquals("BNBUSDT", cripto.ticker)
-		assertEquals("1.01", cripto.usdPrice)
+		assertEquals(1.01, cripto.usdPrice)
 	}
 
 	@Test

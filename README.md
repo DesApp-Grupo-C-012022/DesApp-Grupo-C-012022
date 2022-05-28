@@ -22,6 +22,6 @@
 - [SonarCloud](https://sonarcloud.io/project/overview?id=jcvincenti_DesApp-Grupo-C-012022)
 
 ## Fechas de entrega
-- [ ] 04/05/2022
+- [x] 04/05/2022
 - [ ] 01/06/2022
 - [ ] 22/06/2022
