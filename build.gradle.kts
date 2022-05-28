@@ -43,6 +43,7 @@ sonarqube {
 		property("sonar.projectKey", "jcvincenti_DesApp-Grupo-C-012022")
 		property("sonar.organization", "ggoffredo-jcvincenti")
 		property("sonar.host.url", "https://sonarcloud.io")
+		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
 	}
 }
 
@@ -70,9 +71,9 @@ tasks.jacocoTestReport {
 	}))
 }
 
-tasks.sonarqube {
-	dependsOn(tasks.jacocoTestReport)
-}
+//tasks.sonarqube {
+//	dependsOn(tasks.jacocoTestReport)
+//}
 
 springBoot {
 	mainClass.set("ar.edu.unq.desapp.grupoC012022.backenddesappapi.CriptoP2PApplicationKt")
