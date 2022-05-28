@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
-import com.fasterxml.jackson.databind.node.DoubleNode
 
 
 class CurrencyDeserializer: StdDeserializer<Currency>(Currency::class.java) {
