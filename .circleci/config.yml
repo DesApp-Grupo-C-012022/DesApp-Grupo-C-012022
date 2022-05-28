@@ -4,7 +4,6 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.1.0
 jobs:
   build:
-    working_directory: ~/repo
     docker:
       - image: cimg/openjdk:11.0.10
       - image: postgres:9.6
@@ -18,9 +17,10 @@ jobs:
     steps:
       - checkout
       - run: gradle dependencies
-      - run: ./gradlew jacocoTestReport sonarqube
+      - run: ./gradlew jacocoTestReport
       - store_artifacts:
-          path: target
+          path: build/reports/jacoco/test
+      - run: ./gradlew sonarqube
 workflows:
   version: 2
   build:
