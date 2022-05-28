@@ -20,6 +20,6 @@ class PriceTest {
 
 	@Test
 	fun priceCreationWithNegativeSellingPriceThrowsException() {
-		assertThrows<InvalidPropertyException> {priceBuilder.createPriceWithValues().sellingPrice(6).build()}
+		assertThrows<InvalidPropertyException> {priceBuilder.createPriceWithValues().sellingPrice(-5).build()}
 	}
 }
