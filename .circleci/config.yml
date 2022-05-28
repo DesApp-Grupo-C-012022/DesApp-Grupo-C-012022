@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.1.0
+jobs:
+  build:
+    docker:
+      - image: cimg/openjdk:11.0.10
+      - image: postgres:9.6
+        environment:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_DB: criptop2p
+      - image: cimg/python:3.10.4
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    steps:
+      - checkout
+      - run: gradle dependencies
+      - run: ./gradlew jacocoTestReport
+      - store_artifacts:
+          path: build/reports/jacoco/test/jacocoTestReport.xml
+      - run: ./gradlew sonarqube
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          context: sonarcloud

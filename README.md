@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/jcvincenti/DesApp-Grupo-C-012022.svg?branch=main)](https://app.travis-ci.com/jcvincenti/DesApp-Grupo-C-012022)
+[![CircleCI](https://circleci.com/gh/jcvincenti/DesApp-Grupo-C-012022/tree/main.svg?style=svg)](https://circleci.com/gh/jcvincenti/DesApp-Grupo-C-012022/tree/main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jcvincenti_DesApp-Grupo-C-012022&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jcvincenti_DesApp-Grupo-C-012022)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=jcvincenti_DesApp-Grupo-C-012022&metric=coverage)](https://sonarcloud.io/summary/new_code?id=jcvincenti_DesApp-Grupo-C-012022)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=jcvincenti_DesApp-Grupo-C-012022&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=jcvincenti_DesApp-Grupo-C-012022)
@@ -18,7 +18,7 @@
 - Hibernate
 - [Swagger](https://desapp-grupo-c-012022.herokuapp.com/swagger)
 - [Heroku](https://desapp-grupo-c-012022.herokuapp.com)
-- [Travis](https://app.travis-ci.com/github/jcvincenti/DesApp-Grupo-C-012022)
+- [CircleCI](https://app.circleci.com/pipelines/github/jcvincenti/DesApp-Grupo-C-012022)
 - [SonarCloud](https://sonarcloud.io/project/overview?id=jcvincenti_DesApp-Grupo-C-012022)
 
 ## Fechas de entrega
