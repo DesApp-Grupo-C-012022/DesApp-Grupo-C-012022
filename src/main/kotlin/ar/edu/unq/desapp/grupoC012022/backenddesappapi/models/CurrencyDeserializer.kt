@@ -13,6 +13,6 @@ class CurrencyDeserializer: StdDeserializer<Currency>(Currency::class.java) {
         val ticker = node.get("symbol").asText()
         val usdPrice = node.get("price").textValue().toDouble()
 
-        return Currency(ticker, usdPrice)
+        return Currency(ticker = ticker, usdPrice = usdPrice)
     }
 }

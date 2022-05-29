@@ -11,7 +11,7 @@ class PriceService {
     lateinit var currencyService: CurrencyService
 
     fun price(ticker: String?, price: Long?): Price {
-        return Price(bidCurrency = currencyService.getCurrency(ticker!!), sellingPrice = price!!, askCurrency = currencyService.getReferenceCurrency())
+        return Price(bidCurrency = currencyService.getOrUpdateCurrency(ticker!!), sellingPrice = price!!, askCurrency = currencyService.getReferenceCurrency())
     }
 
 }

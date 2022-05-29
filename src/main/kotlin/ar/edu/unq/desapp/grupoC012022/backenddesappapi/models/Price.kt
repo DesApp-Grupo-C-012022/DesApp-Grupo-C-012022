@@ -13,16 +13,17 @@ import javax.persistence.*
 class Price(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
-    @Transient var bidCurrency: Currency,
+    @OneToOne @JoinColumn(name = "id", nullable = false) var bidCurrency: Currency,
     sellingPrice: Long,
-    @Transient  var askCurrency: Currency
+    @OneToOne @JoinColumn(name = "id", nullable = false)  var askCurrency: Currency
 ) {
-    val timestamp: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false) val timestamp: LocalDateTime = LocalDateTime.now()
 
     init{
         validateSellingPrice()
     }
 
+    @Column(nullable = false)
     var sellingPrice: Long = sellingPrice
         set(value) {
             field = value

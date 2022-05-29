@@ -15,7 +15,14 @@ class CurrencyController {
     @GetMapping("/currencies")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun getCurrencies(@RequestParam(required = false) referenceCurrency: String?): List<Currency?> {
-        return currencyService.getCurrencies(referenceCurrency)
+    fun getCurrencies(): List<Currency?> {
+        return currencyService.getCurrencies()
+    }
+
+    @PostMapping("/currencies")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    fun updateCurrencies(): List<Currency?> {
+        return currencyService.updateCurrencies()
     }
 }

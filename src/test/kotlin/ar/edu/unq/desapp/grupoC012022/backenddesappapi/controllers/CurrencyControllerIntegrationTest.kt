@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @SpringBootTest
@@ -29,15 +30,40 @@ class CurrencyControllerIntegrationTest {
 
     @Test
     fun getCriptosTest() {
-        `when`(this.currencyServiceMock.getCurrencies(null)).thenReturn(listOf(
-            Currency("BNBUSDT", 1.01),
-            Currency("BTCUSDT", 40000.08),
+        `when`(this.currencyServiceMock.getCurrencies()).thenReturn(listOf(
+            Currency(ticker = "BNBUSDT", usdPrice =  1.01),
+            Currency(ticker = "BTCUSDT", usdPrice =  40000.08),
         ))
         this.mockMvc.get("/currencies").andExpect {
             status { isOk() }
             content {
                 jsonPath("$.[0].ticker") {
                     value("BNBUSDT")
+                }
+                jsonPath("$.[0].usdPrice") {
+                    value(1.01)
+                }
+                jsonPath("$.[1].ticker") {
+                    value("BTCUSDT")
+                }
+                jsonPath("$.[1].usdPrice") {
+                    value(40000.08)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun updateCriptosTest() {
+        `when`(this.currencyServiceMock.updateCurrencies()).thenReturn(listOf(
+            Currency(ticker = "ETHUSDT", usdPrice =  1.01),
+            Currency(ticker = "BTCUSDT", usdPrice =  40000.08),
+        ))
+        this.mockMvc.post("/currencies").andExpect {
+            status { isOk() }
+            content {
+                jsonPath("$.[0].ticker") {
+                    value("ETHUSDT")
                 }
                 jsonPath("$.[0].usdPrice") {
                     value(1.01)
