@@ -8,7 +8,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties(value = ["id", "reputation"], allowGetters = true)
-class User(
+open class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
     @Column(nullable = false) var firstName: String,
     @Column(nullable = false) var lastName: String,
@@ -31,11 +31,11 @@ class User(
     }
 
     fun increaseReputationBy(amount: Int) {
-        reputation?.plus(amount)
+        reputation = reputation?.plus(amount)
     }
 
     fun decreaseReputationBy(amount: Int) {
-        reputation?.minus(amount)
+        reputation = reputation?.minus(amount)
     }
 
     private fun validateFirstName() {
