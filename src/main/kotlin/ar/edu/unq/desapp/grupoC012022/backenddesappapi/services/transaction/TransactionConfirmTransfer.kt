@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class TransactionConfirmTransfer : TransactionConfirmBase() {
-    override fun doProcess(order: Order, userFromOrder: User, executingUser: User) {
+    override fun doProcess(order: Order, executingUser: User) {
         // TODO: Take into consideration last cripto active price
-        transferMoney(order.totalArsPrice, executingUser.mercadoPagoCVU, userFromOrder.mercadoPagoCVU)
-        transferCriptoCurrency(order.quantity, order.price.askCurrency.ticker, userFromOrder.walletAddress, executingUser.walletAddress)
+        transferMoney(order.totalArsPrice, executingUser.mercadoPagoCVU, order.user.mercadoPagoCVU)
+        transferCriptoCurrency(order.quantity, order.price.askCurrency.ticker, order.user.walletAddress, executingUser.walletAddress)
     }
 }

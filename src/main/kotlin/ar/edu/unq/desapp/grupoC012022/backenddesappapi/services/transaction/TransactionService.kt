@@ -19,8 +19,7 @@ class TransactionService {
     fun processTransaction(transaction: TransactionDto) {
         val order = orderRepository.findById(transaction.orderId).get()
         val executingUser = userRepository.findById(transaction.userId).get()
-        val userFromOrder = order.user
-        transactionActionFactory.createFromAction(transaction.action).process(order, userFromOrder, executingUser)
+        transactionActionFactory.createFromAction(transaction.action).process(order, executingUser)
     }
 }
 

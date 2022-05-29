@@ -9,17 +9,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class TransactionCancel : ITransactionAction {
+
     @Autowired
     lateinit var orderService: OrderService
     @Autowired
     lateinit var userService: UserService
 
-    override fun process(order: Order, userFromOrder: User, executingUser: User) {
+    override fun process(order: Order, executingUser: User) {
         // Si el usuario 1 o el 2 cancela la operación, no se le suma una operación realizada y se
         // le descuenta 20 puntos de la reputación.
         // Esto es MUY RARO. Solo una orden debería poder cancelarse, no una transacción. Este tipo de transacciones
         // no son rollbackeables. Solo se permite cancelar una "transacción" si el usuario es el mismo
         // que creó la orden. Es para discutir.
+        val userFromOrder = order.user
         if (executingUser.id == userFromOrder.id) {
             userFromOrder.decreaseReputationBy(20)
             userService.save(userFromOrder)

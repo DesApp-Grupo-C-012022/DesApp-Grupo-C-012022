@@ -7,6 +7,7 @@ import org.joda.time.LocalDateTime
 import org.joda.time.Minutes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import kotlin.math.abs
 
 @Component
 abstract class TransactionConfirmBase : ITransactionAction {
@@ -18,11 +19,11 @@ abstract class TransactionConfirmBase : ITransactionAction {
     @Autowired
     protected lateinit var criptoExchanger: CriptoExchanger
 
-    protected abstract fun doProcess(order: Order, userFromOrder: User, executingUser: User)
+    protected abstract fun doProcess(order: Order, executingUser: User)
 
-    override fun process(order: Order, userFromOrder: User, executingUser: User) {
-        checkOrderTimestamp(order, userFromOrder, executingUser)
-        doProcess(order, userFromOrder, executingUser)
+    override fun process(order: Order, executingUser: User) {
+        checkOrderTimestamp(order, executingUser)
+        doProcess(order, executingUser)
     }
 
     protected fun transferMoney(totalAmountArs: Long, fromMercadoPagoCvu: String, toMercadoPagoCvu: String) {
@@ -33,9 +34,10 @@ abstract class TransactionConfirmBase : ITransactionAction {
         criptoExchanger.transferCriptoCurrency(totalAmountCriptoCurrency, criptoActive, fromWallet, toWallet)
     }
 
-    private fun checkOrderTimestamp(order: Order, userFromOrder: User, executingUser: User) {
-        val diff = Minutes.minutesBetween(LocalDateTime.now(), order.price.timestamp).minutes
+    private fun checkOrderTimestamp(order: Order, executingUser: User) {
+        val diff = abs(Minutes.minutesBetween(LocalDateTime.now(), order.price.timestamp).minutes)
         val reputationAmountIncrease = if (diff <= 30) 10 else 5
+        val userFromOrder = order.user
         userFromOrder.increaseReputationBy(reputationAmountIncrease)
         executingUser.increaseReputationBy(reputationAmountIncrease)
         userService.save(userFromOrder)
