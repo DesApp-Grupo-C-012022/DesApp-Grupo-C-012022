@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
-import java.time.LocalDateTime
+import org.joda.time.LocalDateTime
 
 class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long, user: User, operationQuantity: Long, destinationAddress: String, status: Status) {
     var currency: Currency = currency

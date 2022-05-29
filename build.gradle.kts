@@ -29,6 +29,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
 	implementation("org.postgresql:postgresql:42.3.4")
 	implementation("org.apache.tomcat:tomcat-jdbc:10.1.0-M14")
+	implementation("joda-time:joda-time:2.10.14")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.6.7")

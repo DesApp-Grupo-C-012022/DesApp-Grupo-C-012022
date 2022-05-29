@@ -32,6 +32,10 @@ class OrderService {
         return save(fromDTO(orderDto))
     }
 
+    fun delete(order: Order) {
+        orderRepository.delete(order)
+    }
+
     @Throws(UserNotFoundException::class)
     private fun fromDTO(orderDto: OrderDto): Order {
         val price = priceService.price(orderDto.ticker, orderDto.price)

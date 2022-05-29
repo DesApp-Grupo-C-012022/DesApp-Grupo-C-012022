@@ -30,6 +30,14 @@ class User(
         validateWalletAddress()
     }
 
+    fun increaseReputationBy(amount: Int) {
+        reputation?.plus(amount)
+    }
+
+    fun decreaseReputationBy(amount: Int) {
+        reputation?.minus(amount)
+    }
+
     private fun validateFirstName() {
         if (firstName.length < 3)
             throw InvalidPropertyException()
