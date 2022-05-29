@@ -4,11 +4,14 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import org.springframework.stereotype.Service
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class TransactionCancel : ITransactionAction {
+    @Autowired
     lateinit var orderService: OrderService
+    @Autowired
     lateinit var userService: UserService
 
     override fun process(order: Order, userFromOrder: User, executingUser: User) {

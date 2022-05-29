@@ -13,12 +13,14 @@ class TransactionService {
     lateinit var userRepository: UserRepository
     @Autowired
     lateinit var orderRepository: OrderRepository
+    @Autowired
+    lateinit var transactionActionFactory: TransactionActionFactory
 
     fun processTransaction(transaction: TransactionDto) {
         val order = orderRepository.findById(transaction.orderId).get()
         val executingUser = userRepository.findById(transaction.userId).get()
         val userFromOrder = order.user
-        TransactionActionFactory.createFromAction(transaction.action).process(order, userFromOrder, executingUser)
+        transactionActionFactory.createFromAction(transaction.action).process(order, userFromOrder, executingUser)
     }
 }
 
