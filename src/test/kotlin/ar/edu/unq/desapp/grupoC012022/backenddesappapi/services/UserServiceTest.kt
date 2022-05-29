@@ -1,13 +1,13 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserNotFoundException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -68,5 +68,33 @@ class UserServiceTest {
 		val dbuser = user.id(1).build()
 		`when`(userRepositoryMock.findAll()).thenReturn(listOf(dbuser))
 		assert(subject.getUsers() == listOf(dbuser))
+	}
+
+	@Test
+	fun getByNameTest() {
+		val dbuser = user.id(1).build()
+		`when`(userRepositoryMock.findByFirstNameAndLastName(dbuser.firstName,dbuser.lastName)).thenReturn(dbuser)
+		assert(subject.getByName(dbuser.firstName,dbuser.lastName) == dbuser)
+	}
+
+	@Test
+	fun getByInvalidNameUserTest() {
+		val dbuser = user.id(1).build()
+		`when`(userRepositoryMock.findByFirstNameAndLastName(dbuser.firstName,dbuser.lastName)).thenReturn(null)
+		assertThrows<UserNotFoundException> { subject.getByName(dbuser.firstName,dbuser.lastName) }
+	}
+
+	@Test
+	fun getByNameWithNullFirtNameUserTest() {
+		val dbuser = user.id(1).build()
+		`when`(userRepositoryMock.findByFirstNameAndLastName(dbuser.firstName,dbuser.lastName)).thenReturn(dbuser)
+		assertThrows<InvalidPropertyException> { subject.getByName(null,dbuser.lastName) }
+	}
+
+	@Test
+	fun getByNameWithNullLastNameUserTest() {
+		val dbuser = user.id(1).build()
+		`when`(userRepositoryMock.findByFirstNameAndLastName(dbuser.firstName,dbuser.lastName)).thenReturn(dbuser)
+		assertThrows<InvalidPropertyException> { subject.getByName(dbuser.firstName,null) }
 	}
 }

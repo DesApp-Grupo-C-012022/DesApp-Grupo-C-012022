@@ -1,11 +1,17 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Price
 
 class OrderBuilder {
-    private var order: Order = Order(1, PriceBuilder().createPriceWithValues().build(),10,UserBuilder().createUserWithValues().build(),Operation.BUY)
+    private var order: Order = Order(quantity = 1, price = PriceBuilder().createPriceWithValues().build(), totalArsPrice = 10,user = UserBuilder().createUserWithValues().build(), operation =Operation.BUY)
+
+    fun id(id: Int): OrderBuilder {
+        order.id = id
+        return this
+    }
 
     fun quantity(quantity: Long): OrderBuilder {
         order.quantity = quantity
@@ -32,7 +38,19 @@ class OrderBuilder {
     }
 
     fun createOrderWithValues(): OrderBuilder {
-        order =  Order(1, PriceBuilder().createPriceWithValues().build(),10,UserBuilder().createUserWithValues().build(),Operation.BUY)
+        order =  Order(quantity = 1, price = PriceBuilder().createPriceWithValues().build(), totalArsPrice =  10, user =  UserBuilder().createUserWithValues().build(),operation = Operation.BUY)
         return this;
+    }
+
+    fun buildDto(): OrderDto {
+        var orderDto = OrderDto()
+        orderDto.price = order.price.sellingPrice
+        orderDto.operation = order.operation
+        orderDto.quantity = order.quantity
+        orderDto.ticker = order.price.askCurrency.ticker
+        orderDto.userFirstName = order.user.firstName
+        orderDto.userLastname = order.user.lastName
+
+        return orderDto
     }
 }
