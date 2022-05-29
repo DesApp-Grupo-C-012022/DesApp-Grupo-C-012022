@@ -105,7 +105,7 @@ class TransactionServiceTest {
 		verify(orderServiceMock, times(1)).delete(dbOrder)
 	}
 
-	private fun prepareTestContextForTransaction(executingUserId: Int, transactionAction: TransactionAction, operation: Operation, transactionMock: ITransactionAction) {
+	private fun prepareTestContextForTransaction(executingUserId: Int, transactionAction: TransactionAction, operation: Operation, transactionMock: TransactionActionBase) {
 		transactionDto = TransactionDto(executingUserId, 1, transactionAction)
 		dbOrder = orderBuilder
 			.createOrderWithValues()

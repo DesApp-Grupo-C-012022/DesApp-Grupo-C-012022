@@ -42,7 +42,7 @@ class TransactionConfirmTransferTest {
     }
 
     @Test
-    fun tbd() {
+    fun processedOrderWithLessThan30MinutesAdds10PointsOfReputationTest() {
         order = orderBuilder
             .createOrderWithValues()
             .user(userFromOrder)
@@ -60,7 +60,7 @@ class TransactionConfirmTransferTest {
     }
 
     @Test
-    fun tbd2() {
+    fun processedOrderWithMoreThan30MinutesAdds5PointsOfReputationTest() {
         order = orderBuilder
             .createOrderWithValues()
             .user(userFromOrder)

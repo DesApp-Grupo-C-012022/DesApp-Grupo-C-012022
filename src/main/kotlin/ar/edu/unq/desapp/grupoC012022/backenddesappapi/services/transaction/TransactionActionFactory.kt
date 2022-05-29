@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class TransactionActionFactory {
-    fun createFromAction(action: TransactionAction): ITransactionAction {
+    fun createFromAction(action: TransactionAction): TransactionActionBase {
         return when (action) {
             TransactionAction.CANCEL -> TransactionCancel()
             TransactionAction.CONFIRM_TRANSFER -> TransactionConfirmTransfer()
