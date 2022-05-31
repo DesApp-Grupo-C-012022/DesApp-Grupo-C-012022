@@ -9,6 +9,6 @@ import java.time.LocalDateTime
 @Repository
 interface TransactionRepository : JpaRepository<Transaction, Int> {
 
-    @Query("select * from transactions where id = ?1 and timestamp between ?2 and ?3", nativeQuery = true)
+    @Query("select * from transactions where user_id = ?1 and timestamp between ?2 and ?3", nativeQuery = true)
     fun findTransactionsBetweenDates(id: Int, fromDate: LocalDateTime, toDate: LocalDateTime): List<Transaction>
 }

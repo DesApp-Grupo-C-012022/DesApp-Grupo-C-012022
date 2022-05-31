@@ -67,7 +67,7 @@ class UserServiceTest {
 	fun getAllUserTest() {
 		val dbuser = user.id(1).build()
 		`when`(userRepositoryMock.findAll()).thenReturn(listOf(dbuser))
-		assert(subject.getUsers() == listOf(dbuser))
+		assert(subject.getUsers().get(0)!!.id == listOf(dbuser.toDeserializableUser()).get(0).id)
 	}
 
 	@Test

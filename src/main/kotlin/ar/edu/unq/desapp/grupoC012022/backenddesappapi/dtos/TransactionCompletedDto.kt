@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 
 class TransactionCompletedDto(
+    var id: Int,
     var currency: Currency,
     var quantity: Long,
     var price: Price,

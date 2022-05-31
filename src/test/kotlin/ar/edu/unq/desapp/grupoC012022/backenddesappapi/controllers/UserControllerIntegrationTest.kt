@@ -84,8 +84,8 @@ class UserControllerIntegrationTest {
     @Test
     fun getUsersTest() {
         `when`(this.userServiceMock.getUsers()).thenReturn(listOf(
-            userBuilder.createUserWithValues().firstName("usuario1").build(),
-            userBuilder.createUserWithValues().firstName("usuario2").build(),
+            userBuilder.createUserWithValues().firstName("usuario1").build().toDeserializableUser(),
+            userBuilder.createUserWithValues().firstName("usuario2").build().toDeserializableUser(),
         ))
         this.mockMvc.get("/users").andExpect {
             status { isOk() }

@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
@@ -23,8 +24,8 @@ class UserService {
         return userRepository.save(user)
     }
 
-    fun getUsers(): List<User?> {
-        return userRepository.findAll()
+    fun getUsers(): List<DeserializableUser?> {
+        return userRepository.findAll().map { it.toDeserializableUser() }
     }
 
     @Throws(UserNotFoundException::class)
