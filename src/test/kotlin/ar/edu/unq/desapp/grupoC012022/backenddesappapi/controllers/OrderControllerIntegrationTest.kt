@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -73,6 +74,44 @@ class OrderControllerIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isUnprocessableEntity)
+    }
+
+    @Test
+    fun getActiveOrdersTest() {
+        `when`(orderServiceMock.getActives()).thenReturn( listOf(orderBuilder.buildOfferedDto()))
+
+        this.mockMvc.get("/orders").andExpect {
+            status { isOk() }
+            content {
+                jsonPath("$.[0].timestamp") {
+                    exists()
+                }
+                jsonPath("$.[0].ticker") {
+                    isString()
+                }
+                jsonPath("$.[0].quantity") {
+                    isNumber()
+                }
+                jsonPath("$.[0].price") {
+                    isNumber()
+                }
+                jsonPath("$.[0].arsPrice") {
+                    isNumber()
+                }
+                jsonPath("$.[0].userLastname") {
+                    isString()
+                }
+                jsonPath("$.[0].userFirstName") {
+                    isString()
+                }
+                /*jsonPath("$.[0].operationsAmount") {
+                    isNumber()
+                }*/
+                jsonPath("$.[0].reputation") {
+                    isNumber()
+                }
+            }
+        }
     }
 
 }

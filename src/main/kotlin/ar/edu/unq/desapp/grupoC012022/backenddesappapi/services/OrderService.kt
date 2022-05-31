@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OfferedOrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
@@ -46,5 +47,24 @@ class OrderService {
             user = userService.getByName(orderDto.userFirstName, orderDto.userLastname),
             operation = orderDto.operation!!
         )
+    }
+
+    fun getActives(): List<OfferedOrderDto> {
+        return orderRepository.findByIsActive(true).map{ o -> toOfferedDto(o)}
+    }
+
+    fun toOfferedDto(order: Order): OfferedOrderDto {
+        var orderDto = OfferedOrderDto()
+        orderDto.timestamp = order.price.timestamp
+        orderDto.ticker = order.price.bidCurrency.ticker
+        orderDto.quantity = order.quantity
+        orderDto.price = order.price.sellingPrice
+        orderDto.arsPrice = order.totalArsPrice
+        orderDto.userFirstName = order.user.firstName
+        orderDto.userLastname = order.user.lastName
+        orderDto.operationsAmount = order.user.operationsAmount
+        orderDto.reputation = order.user.reputation
+
+        return orderDto
     }
 }
