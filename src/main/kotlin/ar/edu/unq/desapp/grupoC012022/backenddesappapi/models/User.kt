@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
@@ -41,6 +42,10 @@ open class User(
 
     fun decreaseReputationBy(amount: Int) {
         reputation = reputation?.minus(amount)
+    }
+
+    fun toDeserializableUser(): DeserializableUser {
+        return DeserializableUser(id!!, firstName, lastName, email, homeAddress, mercadoPagoCVU, walletAddress, operationsAmount, reputation)
     }
 
     private fun validateFirstName() {

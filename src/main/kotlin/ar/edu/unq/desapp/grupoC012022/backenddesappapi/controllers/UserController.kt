@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +22,8 @@ class UserController {
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun save(@RequestBody user: User) : User {
-        return userService.save(user)
+    fun save(@RequestBody user: User) : DeserializableUser? {
+        return userService.save(user)?.toDeserializableUser()
     }
 
     @GetMapping()

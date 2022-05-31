@@ -39,7 +39,7 @@ class OrderControllerIntegrationTest {
 
     @Test
     fun postSuccessfulOrderTest() {
-        `when`(orderServiceMock.create(order.buildDto())).thenReturn(order.id(1).build())
+        `when`(this.orderServiceMock.create(order.buildDto())).thenReturn(order.id(1).build())
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
