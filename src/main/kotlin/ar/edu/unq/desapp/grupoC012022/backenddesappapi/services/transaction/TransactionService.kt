@@ -2,10 +2,8 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionCompletedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantBuyYourOwnOrderException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
