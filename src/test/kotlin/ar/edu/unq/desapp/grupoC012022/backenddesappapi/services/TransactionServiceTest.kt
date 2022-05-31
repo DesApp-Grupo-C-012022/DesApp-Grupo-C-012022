@@ -1,6 +1,8 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.DolarSiApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.*
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OperatedVolumeRequestDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
@@ -20,6 +22,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.Spy
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @SpringBootTest
@@ -35,6 +38,8 @@ class TransactionServiceTest {
 	private lateinit var currencyService: CurrencyService
 	@Mock
 	private lateinit var transactionRepository: TransactionRepository
+	@Mock
+	private lateinit var dolarSiApiMock: DolarSiApi
 	@Spy
 	private lateinit var mercadoPagoApiMock: MercadoPagoApi
 	@Spy
@@ -103,6 +108,37 @@ class TransactionServiceTest {
 		prepareTestContextForTransaction(1, TransactionAction.CANCEL, Operation.BUY, transactionCancelMock)
 		subject.processTransaction(transactionDto)
 		verify(orderServiceMock, times(1)).save(dbOrder)
+	}
+
+	@Test
+	fun getOperatedVolumeBetweenDatesTest() {
+		prepareTestContextForTransaction(1, TransactionAction.CONFIRM_RECEPTION, Operation.BUY, transactionConfirmReceptionMock)
+		val now = LocalDate.now()
+		val yesterday = LocalDate.now().minusDays(1)
+		`when`(dolarSiApiMock.getMepUsdToArs()).thenReturn(200.0)
+		`when`(transactionRepository.findTransactionsBetweenDates(1, now.atStartOfDay(), yesterday.atStartOfDay()))
+			.thenReturn(
+				listOf(
+					transactionBuilder.createTransactionWithValues().price(
+						priceBuilder.createPriceWithValues().sellingPrice(10000).build()
+					).build(),
+					transactionBuilder.createTransactionWithValues().price(
+						priceBuilder.createPriceWithValues().sellingPrice(8000).build()
+					).build(),
+					transactionBuilder.createTransactionWithValues()
+						.currency(
+							currencyBuilder.createCurrencyWithValues().ticker("ADA").build()
+						).price(
+							priceBuilder.createPriceWithValues().sellingPrice(15000).build()
+					).build()
+				)
+			)
+		`when`(currencyService.getOrUpdateCurrency("BTC")).thenReturn(currencyBuilder.createCurrencyWithValues().build())
+		`when`(currencyService.getOrUpdateCurrency("ADA")).thenReturn(currencyBuilder.createCurrencyWithValues().build())
+		val result = subject.getOperatedVolumeBetweenDates(OperatedVolumeRequestDto(1, now, yesterday))
+		assert(result.totalArs == 33000.toLong())
+		assert(result.totalUsd == 165.toLong())
+		assert(result.criptoActives.size == 2)
 	}
 
 	private fun prepareTestContextForTransaction(executingUserId: Int, transactionAction: TransactionAction, operation: Operation, transactionMock: TransactionActionBase) {

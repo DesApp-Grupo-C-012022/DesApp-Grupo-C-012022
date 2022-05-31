@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OfferedOrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderSavedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,8 +18,8 @@ class OrderController {
     @PostMapping("/orders")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody orderDto: OrderDto) : Order {
-        return orderService.create(orderDto)
+    fun create(@RequestBody orderDto: OrderDto) : OrderSavedDto? {
+        return orderService.create(orderDto)?.toOrderSavedDto()
     }
 
     @GetMapping("/orders")
@@ -27,5 +28,4 @@ class OrderController {
     fun getActives() : List<OfferedOrderDto> {
         return orderService.getActives()
     }
-
 }

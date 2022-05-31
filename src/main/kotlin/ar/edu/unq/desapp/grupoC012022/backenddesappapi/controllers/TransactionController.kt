@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OperatedVolumeRequestDto
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OperatedVolumeResultDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionCompletedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionService
@@ -24,5 +26,17 @@ class TransactionController {
     )
     fun processTransaction(@RequestBody transaction: TransactionDto): TransactionCompletedDto {
         return transactionService.processTransaction(transaction)
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @RequestMapping(
+        "/volume",
+        method = [RequestMethod.POST],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun getOperatedVolumeBetweenDates(@RequestBody operatedVolumeRequestDto: OperatedVolumeRequestDto): OperatedVolumeResultDto {
+        return transactionService.getOperatedVolumeBetweenDates(operatedVolumeRequestDto)
     }
 }

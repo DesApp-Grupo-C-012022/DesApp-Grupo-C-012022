@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderSavedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
@@ -23,6 +24,10 @@ class Order(
     fun validate() {
         validateQuantity()
         validateArsPrice()
+    }
+
+    fun toOrderSavedDto(): OrderSavedDto {
+        return OrderSavedDto(id, quantity, price, totalArsPrice, user.toDeserializableUser(), operation, isActive)
     }
 
     private fun validateArsPrice() {
