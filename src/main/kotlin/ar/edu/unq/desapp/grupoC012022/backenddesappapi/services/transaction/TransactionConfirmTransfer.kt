@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
@@ -39,10 +36,11 @@ class TransactionConfirmTransfer @Autowired constructor(
     orderService
 ) {
 
-    override fun doProcess(order: Order, executingUser: User) {
-        saveTransaction(order, Status.APPROVED)
+    override fun doProcess(order: Order, executingUser: User): Transaction {
+        val transaction = saveTransaction(order, Status.APPROVED)
         transferMoney(order.totalArsPrice, executingUser.mercadoPagoCVU, order.user.mercadoPagoCVU)
         transferCriptoCurrency(order.quantity, order.price.askCurrency.ticker, order.user.walletAddress, executingUser.walletAddress)
+        return transaction
     }
 
     override fun checkBidCurrencyVariation(order: Order) {
@@ -51,7 +49,6 @@ class TransactionConfirmTransfer @Autowired constructor(
         val currency = currencyService.getCurrency(order.price.bidCurrency.ticker)!!
         // Si la diferencia es mayor a un 5%, se elimina la orden
         if (currency.usdPrice < order.price.bidCurrency.usdPrice * 0.95) {
-            deleteOrder(order)
             throw CancelOrderDuePriceDifferenceException()
         }
     }

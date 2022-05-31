@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.TransactionBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
@@ -42,6 +43,7 @@ class TransactionConfirmTransferTest {
     private val orderBuilder = OrderBuilder()
     private val userBuilder = UserBuilder()
     private val priceBuilder = PriceBuilder()
+    private val transactionBuilder = TransactionBuilder()
 
     @BeforeEach
     fun setUp() {
@@ -50,6 +52,7 @@ class TransactionConfirmTransferTest {
         executingUser = userBuilder.createUserWithValues().id(2).reputation(10).build()
         `when`(userService.save(userFromOrder)).thenReturn(userFromOrder)
         `when`(userService.save(executingUser)).thenReturn(executingUser)
+        `when`(transactionRepository.save(any())).thenReturn(transactionBuilder.createTransactionWithValues().build())
         savedTransaction = ArgumentCaptor.forClass(Transaction::class.java)
     }
 

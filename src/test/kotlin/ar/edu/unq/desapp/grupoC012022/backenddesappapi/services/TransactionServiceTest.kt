@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.CurrencyBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
@@ -11,9 +8,11 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.TransactionAction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantCancelOrderThatIsNotYoursException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -62,6 +61,7 @@ class TransactionServiceTest {
 	private val userBuilder = UserBuilder()
 	private val priceBuilder = PriceBuilder()
 	private val currencyBuilder = CurrencyBuilder()
+	private val transactionBuilder = TransactionBuilder()
 
 	@BeforeEach
 	fun setUp() {
@@ -95,8 +95,7 @@ class TransactionServiceTest {
 	@Test
 	fun processTransactionWithACancelTransactionActionAndAUserDifferentFromTheOrder() {
 		prepareTestContextForTransaction(2, TransactionAction.CANCEL, Operation.BUY, transactionCancelMock)
-		subject.processTransaction(transactionDto)
-		verify(orderServiceMock, times(0)).delete(dbOrder)
+		assertThrows<CantCancelOrderThatIsNotYoursException> { subject.processTransaction(transactionDto) }
 	}
 
 	@Test
@@ -130,5 +129,6 @@ class TransactionServiceTest {
 		`when`(transactionActionFactoryMock.createFromAction(transactionAction)).thenReturn(transactionMock)
 		`when`(userServiceMock.save(userFromOrder)).thenReturn(userFromOrder)
 		`when`(userServiceMock.save(executingUser)).thenReturn(executingUser)
+		`when`(transactionRepository.save(any())).thenReturn(transactionBuilder.createTransactionWithValues().build())
 	}
 }

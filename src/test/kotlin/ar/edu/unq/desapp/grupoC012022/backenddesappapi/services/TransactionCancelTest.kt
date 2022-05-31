@@ -1,15 +1,18 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.TransactionBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Transaction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantCancelOrderThatIsNotYoursException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionCancel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentCaptor
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -31,6 +34,7 @@ class TransactionCancelTest {
 
     private val orderBuilder = OrderBuilder()
     private val userBuilder = UserBuilder()
+    private val transactionBuilder = TransactionBuilder()
 
     @BeforeEach
     fun setUp() {
@@ -39,6 +43,7 @@ class TransactionCancelTest {
         order = orderBuilder.createOrderWithValues().user(executingUser).build()
         `when`(userService.save(executingUser)).thenReturn(executingUser)
         `when`(orderService.delete(order)).thenAnswer { }
+        `when`(transactionRepository.save(any())).thenReturn(transactionBuilder.createTransactionWithValues().build())
     }
 
     @Test
@@ -53,7 +58,6 @@ class TransactionCancelTest {
     @Test
     fun whenTransactionCancelProcessWithDifferentExecutingUserTheUserDoesNotDecreasesItsReputationBy20() {
         val differentExecutingUser = spy(userBuilder.createUserWithValues().id(2).build())
-        subject.process(order, differentExecutingUser)
-        assert(executingUser.reputation == 50)
+        assertThrows<CantCancelOrderThatIsNotYoursException> { subject.process(order, differentExecutingUser) }
     }
 }

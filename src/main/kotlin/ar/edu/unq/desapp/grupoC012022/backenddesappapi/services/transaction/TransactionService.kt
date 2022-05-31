@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionCompletedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
@@ -18,10 +19,13 @@ class TransactionService {
     @Autowired
     lateinit var transactionActionFactory: TransactionActionFactory
 
-    fun processTransaction(transaction: TransactionDto) {
+    fun processTransaction(transaction: TransactionDto): TransactionCompletedDto {
         val order = orderService.findById(transaction.orderId)
         val executingUser = userService.findById(transaction.userId)
-        transactionActionFactory.createFromAction(transaction.action).process(order, executingUser)
+        return transactionActionFactory
+            .createFromAction(transaction.action)
+            .process(order, executingUser)
+            .toTransactionCompletedDto()
     }
 }
 

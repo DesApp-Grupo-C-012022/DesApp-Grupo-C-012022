@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantConfirmReceptionOnSellOrders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -37,10 +35,11 @@ class TransactionConfirmReception @Autowired constructor(
     transactionRepository,
     orderService
 ) {
-    override fun doProcess(order: Order, executingUser: User) {
-        saveTransaction(order, Status.APPROVED)
+    override fun doProcess(order: Order, executingUser: User): Transaction {
+        val transaction = saveTransaction(order, Status.APPROVED)
         transferMoney(order.totalArsPrice, order.user.mercadoPagoCVU, executingUser.mercadoPagoCVU)
         transferCriptoCurrency(order.quantity, order.price.askCurrency.ticker, executingUser.walletAddress, order.user.walletAddress)
+        return transaction
     }
 
     override fun checkBidCurrencyVariation(order: Order) {
@@ -50,7 +49,7 @@ class TransactionConfirmReception @Autowired constructor(
         val currency = currencyService.getCurrency(order.price.bidCurrency.ticker)!!
         // Si la diferencia es mayor a un 5%, se elimina la orden
         if (currency.usdPrice > order.price.bidCurrency.usdPrice * 1.05) {
-            deleteOrder(order)
+            throw CancelOrderDuePriceDifferenceException()
         }
     }
 

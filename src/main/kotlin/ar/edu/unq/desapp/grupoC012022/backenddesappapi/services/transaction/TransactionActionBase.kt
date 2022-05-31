@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component
 @Component
 abstract class TransactionActionBase(private var transactionRepository: TransactionRepository, private var orderService: OrderService) {
 
-    abstract fun process(order: Order, executingUser: User)
+    abstract fun process(order: Order, executingUser: User): Transaction
 
-    protected fun saveTransaction(order: Order, status: Status) {
+    protected fun saveTransaction(order: Order, status: Status): Transaction {
         order.isActive = false
         val destionationAddress = if (order.operation == Operation.BUY) order.user.walletAddress else order.user.mercadoPagoCVU
         val transaction = Transaction(
@@ -23,11 +23,12 @@ abstract class TransactionActionBase(private var transactionRepository: Transact
             destionationAddress,
             status
         )
-        transactionRepository.save(transaction)
+        return transactionRepository.save(transaction)
     }
 
-    protected fun deleteOrder(order: Order) {
-        saveTransaction(order, Status.CANCELED)
+    protected fun deleteOrder(order: Order): Transaction {
+        val transaction = saveTransaction(order, Status.CANCELED)
         orderService.save(order)
+        return transaction
     }
 }
