@@ -32,6 +32,7 @@ class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long
 
     fun toTransactionCompletedDto(): TransactionCompletedDto {
         return TransactionCompletedDto(
+            id,
             currency,
             quantity,
             price,

@@ -29,7 +29,7 @@ class UserController {
     @GetMapping()
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun getUsers(): List<User?> {
+    fun getUsers(): List<DeserializableUser?> {
         return userService.getUsers()
     }
 }
