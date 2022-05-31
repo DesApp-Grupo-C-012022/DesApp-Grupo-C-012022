@@ -17,8 +17,8 @@ class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long
     @OneToOne @JoinColumn(name = "id", nullable = false) var price: Price = price
     @Column(nullable = false) var amount: Long = amount
     @OneToOne @JoinColumn(name = "id", nullable = false) var user: User = user
-    @Column(nullable = false) var operationQuantity: Int = operationQuantity // Cantidad nominal de cryptoActivo
-    @Column(nullable = false) var destinationAddress: String = destinationAddress // TODO: Analizar si tiene sentido modelar Address
+    @Column(nullable = false) var operationQuantity: Int = operationQuantity
+    @Column(nullable = false) var destinationAddress: String = destinationAddress
     @Column(nullable = false) var status: Status = status
     @Column(nullable = false) val timestamp: LocalDateTime = LocalDateTime.now()
 
