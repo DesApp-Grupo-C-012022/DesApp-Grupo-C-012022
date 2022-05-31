@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
@@ -8,6 +9,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantConfirmTransferOnBuyOrders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -51,6 +53,13 @@ class TransactionConfirmTransfer @Autowired constructor(
         if (currency.usdPrice < order.price.bidCurrency.usdPrice * 0.95) {
             deleteOrder(order)
             throw CancelOrderDuePriceDifferenceException()
+        }
+    }
+
+    @Throws(CantConfirmTransferOnBuyOrders::class)
+    override fun checkActionAgainstOrderAction(order: Order) {
+        if (order.operation == Operation.BUY) {
+            throw CantConfirmTransferOnBuyOrders()
         }
     }
 }

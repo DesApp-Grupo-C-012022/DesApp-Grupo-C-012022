@@ -28,8 +28,8 @@ class CurrencyService {
         val referenceCurrency = "USDT"
         val response = this.binanceApi.getCurrency(currency, referenceCurrency)
         val objectMapper = ObjectMapper()
-        var newCurrency = objectMapper.readValue(response.body.toString(), Currency::class.java)
-        var lastCurrency = getCurrency(currency)
+        val newCurrency = objectMapper.readValue(response.body.toString(), Currency::class.java)
+        val lastCurrency = getCurrency(currency)
         if(lastCurrency != null){
             lastCurrency.latest = false
             currencyRepository.save(lastCurrency)
@@ -45,7 +45,7 @@ class CurrencyService {
     }
 
     fun getCurrency(currency: String): Currency? {
-        return currencyRepository.findByTickerAndLatest(currency,true)
+        return currencyRepository.findByTickerAndLatest(currency)
     }
 
     private fun validateCurrency(currency: String) {

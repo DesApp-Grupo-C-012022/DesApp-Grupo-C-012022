@@ -36,7 +36,7 @@ class CurrencyServiceTest {
 			.mockCurrency("BTC", 40000.1254)
 			.prepareMock()
 
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB",true)).thenReturn(currencyBuilder.ticker("BNBUSDT").usdPrice(1.01).build())
+		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB")).thenReturn(currencyBuilder.ticker("BNBUSDT").usdPrice(1.01).build())
 	}
 
 	@Test

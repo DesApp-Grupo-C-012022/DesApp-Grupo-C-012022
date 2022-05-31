@@ -7,10 +7,10 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
-import org.springframework.beans.factory.annotation.Autowired
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantBuyYourOwnOrderException
+import java.time.LocalDateTime
 import org.springframework.stereotype.Component
 import java.time.Duration
-import java.time.LocalDateTime
 import kotlin.math.abs
 
 @Component
@@ -25,9 +25,12 @@ abstract class TransactionConfirmBase(
 
     protected abstract fun doProcess(order: Order, executingUser: User)
     protected abstract fun checkBidCurrencyVariation(order: Order)
+    protected abstract fun checkActionAgainstOrderAction(order: Order)
 
     override fun process(order: Order, executingUser: User) {
         try {
+            checkUsersIdsConsistency(order.user, executingUser)
+            checkActionAgainstOrderAction(order)
             checkBidCurrencyVariation(order)
         } catch (e: CancelOrderDuePriceDifferenceException) {
             return
@@ -42,6 +45,13 @@ abstract class TransactionConfirmBase(
 
     protected fun transferCriptoCurrency(totalAmountCriptoCurrency: Long, criptoActive: String, fromWallet: String, toWallet: String) {
         criptoExchanger.transferCriptoCurrency(totalAmountCriptoCurrency, criptoActive, fromWallet, toWallet)
+    }
+
+    @Throws(CantBuyYourOwnOrderException::class)
+    private fun checkUsersIdsConsistency(userFromOrder: User, executingUser: User) {
+        if (userFromOrder.id == executingUser.id) {
+            throw CantBuyYourOwnOrderException()
+        }
     }
 
     private fun checkOrderTimestamp(order: Order, executingUser: User) {
