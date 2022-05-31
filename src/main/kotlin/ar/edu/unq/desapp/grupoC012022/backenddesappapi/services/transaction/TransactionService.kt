@@ -1,8 +1,8 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service
 class TransactionService {
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userService: UserService
     @Autowired
-    lateinit var orderRepository: OrderRepository
+    lateinit var orderService: OrderService
     @Autowired
     lateinit var transactionActionFactory: TransactionActionFactory
 
     fun processTransaction(transaction: TransactionDto) {
-        val order = orderRepository.findById(transaction.orderId).get()
-        val executingUser = userRepository.findById(transaction.userId).get()
+        val order = orderService.findById(transaction.orderId)
+        val executingUser = userService.findById(transaction.userId)
         transactionActionFactory.createFromAction(transaction.action).process(order, executingUser)
     }
 }
@@ -26,13 +26,13 @@ class TransactionService {
 @Service
 class MercadoPagoApi {
     fun transferMoney(totalAmountArs: Long, fromMercadoPagoCvu: String, toMercadoPagoCvu: String) {
-        // do stuff I don't care
+        // do stuff
     }
 }
 
 @Service
 class CriptoExchanger {
     fun transferCriptoCurrency(totalAmountCriptoCurrency: Long, criptoActive: String, fromWallet: String, toWallet: String) {
-        // do stuff I don't care
+        // do stuff
     }
 }

@@ -5,14 +5,13 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.CriptoExchanger
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.MercadoPagoApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionConfirmTransfer
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.InjectMocks
-import org.mockito.Mock
+import org.mockito.*
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
@@ -28,6 +27,10 @@ class TransactionConfirmTransferTest {
     private lateinit var currencyService: CurrencyService
     @Mock
     private lateinit var orderService: OrderService
+    @Spy
+    private lateinit var mercadoPagoApiMock: MercadoPagoApi
+    @Spy
+    private lateinit var criptoExchangerMock: CriptoExchanger
     @Autowired @InjectMocks
     private lateinit var subject: TransactionConfirmTransfer
 

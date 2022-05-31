@@ -2,15 +2,18 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class TransactionCancel : TransactionActionBase() {
-
-    @Autowired
-    lateinit var userService: UserService
+class TransactionCancel @Autowired constructor(
+    private var userService: UserService,
+    transactionRepository: TransactionRepository,
+    orderService: OrderService
+) : TransactionActionBase(transactionRepository, orderService) {
 
     override fun process(order: Order, executingUser: User) {
         // Si el usuario 1 o el 2 cancela la operación, no se le suma una operación realizada y se

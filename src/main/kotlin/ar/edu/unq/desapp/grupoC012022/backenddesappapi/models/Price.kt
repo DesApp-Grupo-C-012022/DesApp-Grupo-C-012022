@@ -13,9 +13,9 @@ import javax.persistence.*
 class Price(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
-    @OneToOne @JoinColumn(name = "id", nullable = false) var bidCurrency: Currency,
+    @OneToOne(cascade = [CascadeType.ALL]) @JoinColumn(referencedColumnName = "id", nullable = false) var bidCurrency: Currency,
     sellingPrice: Long,
-    @OneToOne @JoinColumn(name = "id", nullable = false)  var askCurrency: Currency
+    @OneToOne(cascade = [CascadeType.ALL]) @JoinColumn(referencedColumnName = "id", nullable = false)  var askCurrency: Currency
 ) {
     @Column(nullable = false)
     var timestamp: LocalDateTime = LocalDateTime.now()

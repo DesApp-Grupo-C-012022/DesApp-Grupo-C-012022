@@ -2,7 +2,9 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,16 +14,14 @@ import java.time.LocalDateTime
 import kotlin.math.abs
 
 @Component
-abstract class TransactionConfirmBase : TransactionActionBase() {
-
-    @Autowired
-    private lateinit var userService: UserService
-    @Autowired
-    protected lateinit var currencyService: CurrencyService
-    @Autowired
-    protected lateinit var mercadoPagoApi: MercadoPagoApi
-    @Autowired
-    protected lateinit var criptoExchanger: CriptoExchanger
+abstract class TransactionConfirmBase(
+    private var userService: UserService,
+    protected var currencyService: CurrencyService,
+    private var mercadoPagoApi: MercadoPagoApi,
+    private var criptoExchanger: CriptoExchanger,
+    transactionRepository: TransactionRepository,
+    orderService: OrderService
+) : TransactionActionBase(transactionRepository, orderService) {
 
     protected abstract fun doProcess(order: Order, executingUser: User)
     protected abstract fun checkBidCurrencyVariation(order: Order)

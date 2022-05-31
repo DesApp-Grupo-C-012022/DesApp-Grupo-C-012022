@@ -27,6 +27,11 @@ class UserService {
         return userRepository.findAll()
     }
 
+    @Throws(UserNotFoundException::class)
+    fun findById(id: Int): User {
+        return userRepository.findById(id).orElseThrow { UserNotFoundException() }
+    }
+
     @Throws(UserNotFoundException::class, InvalidPropertyException::class)
     fun getByName(firstName: String?, lastname: String?): User {
         if(firstName.isNullOrEmpty() || lastname.isNullOrEmpty())

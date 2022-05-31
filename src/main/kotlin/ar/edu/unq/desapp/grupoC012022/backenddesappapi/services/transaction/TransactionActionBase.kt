@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-abstract class TransactionActionBase {
+abstract class TransactionActionBase(private var transactionRepository: TransactionRepository, private var orderService: OrderService) {
 
-    @Autowired
-    private lateinit var transactionRepository: TransactionRepository
-    @Autowired
-    private lateinit var orderService: OrderService
+//    @Autowired
+//    private lateinit var transactionRepository: TransactionRepository
+//    @Autowired
+//    private lateinit var orderService: OrderService
 
     abstract fun process(order: Order, executingUser: User)
 
