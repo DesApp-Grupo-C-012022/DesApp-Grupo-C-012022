@@ -18,6 +18,7 @@ class Order(
     @Column(nullable = false) var totalArsPrice: Long,
     @OneToOne @JoinColumn(name = "id", nullable = false) var user: User,
     @Column(nullable = false) var operation: Operation,
+    @Column(nullable = false) var isActive: Boolean = true,
 ){
     fun validate() {
         validateQuantity()

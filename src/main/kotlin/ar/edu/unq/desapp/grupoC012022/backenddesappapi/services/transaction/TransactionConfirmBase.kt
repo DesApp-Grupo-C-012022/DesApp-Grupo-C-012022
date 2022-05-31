@@ -4,10 +4,11 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import org.joda.time.LocalDateTime
-import org.joda.time.Minutes
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
+import java.time.LocalDateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.time.Duration
 import kotlin.math.abs
 
 @Component
@@ -26,7 +27,11 @@ abstract class TransactionConfirmBase : TransactionActionBase() {
     protected abstract fun checkBidCurrencyVariation(order: Order)
 
     override fun process(order: Order, executingUser: User) {
-        checkBidCurrencyVariation(order)
+        try {
+            checkBidCurrencyVariation(order)
+        } catch (e: CancelOrderDuePriceDifferenceException) {
+            return
+        }
         checkOrderTimestamp(order, executingUser)
         doProcess(order, executingUser)
     }
@@ -40,11 +45,13 @@ abstract class TransactionConfirmBase : TransactionActionBase() {
     }
 
     private fun checkOrderTimestamp(order: Order, executingUser: User) {
-        val diff = abs(Minutes.minutesBetween(LocalDateTime.now(), order.price.timestamp).minutes)
+        val diff = abs(Duration.between(LocalDateTime.now(), order.price.timestamp).toMinutes())
         val reputationAmountIncrease = if (diff <= 30) 10 else 5
         val userFromOrder = order.user
         userFromOrder.increaseReputationBy(reputationAmountIncrease)
+        userFromOrder.increaseOperationsAmount()
         executingUser.increaseReputationBy(reputationAmountIncrease)
+        executingUser.increaseOperationsAmount()
         userService.save(userFromOrder)
         userService.save(executingUser)
     }

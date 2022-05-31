@@ -1,13 +1,14 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties(value = ["id", "reputation"], allowGetters = true)
+@JsonIgnoreProperties(value = ["id", "reputation", "operationsAmount"], allowGetters = true)
 open class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
     @Column(nullable = false) var firstName: String,
@@ -17,6 +18,7 @@ open class User(
     @Column(nullable = false) var password: String,
     @Column(nullable = false, name = "mercado_pago_cvu") var mercadoPagoCVU: String,
     @Column(nullable = false) var walletAddress: String,
+    @Schema(hidden = true) @Column(nullable = false) var operationsAmount: Int? = 0,
     @Schema(hidden = true) @Column(nullable = false) var reputation: Int? = 0
 ) {
 
@@ -32,6 +34,10 @@ open class User(
 
     fun increaseReputationBy(amount: Int) {
         reputation = reputation?.plus(amount)
+    }
+
+    fun increaseOperationsAmount() {
+        operationsAmount = operationsAmount?.plus(1)
     }
 
     fun decreaseReputationBy(amount: Int) {

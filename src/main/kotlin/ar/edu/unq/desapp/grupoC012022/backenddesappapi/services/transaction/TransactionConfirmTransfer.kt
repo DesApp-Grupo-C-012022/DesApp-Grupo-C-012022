@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
 import org.springframework.stereotype.Component
 
 /**
@@ -29,6 +30,7 @@ class TransactionConfirmTransfer : TransactionConfirmBase() {
         // Si la diferencia es mayor a un 5%, se elimina la orden
         if (currency.usdPrice < order.price.bidCurrency.usdPrice * 0.95) {
             deleteOrder(order)
+            throw CancelOrderDuePriceDifferenceException()
         }
     }
 }

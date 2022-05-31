@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionDto
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.TransactionAction
@@ -12,7 +13,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.*
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
@@ -37,6 +38,8 @@ class TransactionServiceTest {
 	private lateinit var userServiceMock: UserService
 	@Mock
 	private lateinit var orderServiceMock: OrderService
+	@Mock
+	private lateinit var currencyService: CurrencyService
 	@Spy
 	private lateinit var mercadoPagoApiMock: MercadoPagoApi
 	@Spy
@@ -74,6 +77,7 @@ class TransactionServiceTest {
 	@Test
 	fun processTransactionWithASellOrderTest() {
 		prepareTestContextForTransaction(2, TransactionAction.CONFIRM_TRANSFER, Operation.SELL, transactionConfirmTransferMock)
+		`when`(currencyService.getCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
 		subject.processTransaction(transactionDto)
 		verify(mercadoPagoApiMock, times(1))
 			.transferMoney(100000, executingUser.mercadoPagoCVU, userFromOrder.mercadoPagoCVU)
@@ -84,6 +88,7 @@ class TransactionServiceTest {
 	@Test
 	fun processTransactionWithABuyOrderTest() {
 		prepareTestContextForTransaction(2, TransactionAction.CONFIRM_RECEPTION, Operation.BUY, transactionConfirmReceptionMock)
+		`when`(currencyService.getCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
 		subject.processTransaction(transactionDto)
 		verify(mercadoPagoApiMock, times(1))
 			.transferMoney(100000, userFromOrder.mercadoPagoCVU, executingUser.mercadoPagoCVU)
@@ -102,7 +107,7 @@ class TransactionServiceTest {
 	fun processTransactionWithACancelTransactionActionAndTheSameUserAsInTheOrder() {
 		prepareTestContextForTransaction(1, TransactionAction.CANCEL, Operation.BUY, transactionCancelMock)
 		subject.processTransaction(transactionDto)
-		verify(orderServiceMock, times(1)).delete(dbOrder)
+		verify(orderServiceMock, times(1)).save(dbOrder)
 	}
 
 	private fun prepareTestContextForTransaction(executingUserId: Int, transactionAction: TransactionAction, operation: Operation, transactionMock: TransactionActionBase) {

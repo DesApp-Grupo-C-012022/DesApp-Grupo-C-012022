@@ -3,10 +3,14 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Transaction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionCancel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentCaptor
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
@@ -18,6 +22,8 @@ class TransactionCancelTest {
     private lateinit var orderService: OrderService
     @Mock
     private lateinit var userService: UserService
+    @Mock
+    private lateinit var transactionRepository: TransactionRepository
     @InjectMocks
     private lateinit var subject: TransactionCancel
     private lateinit var executingUser: User
@@ -39,6 +45,9 @@ class TransactionCancelTest {
     fun whenTransactionCancelProcessTheUserDecreasesItsReputationBy20() {
         subject.process(order, executingUser)
         assert(executingUser.reputation == 30)
+        val savedTransaction = ArgumentCaptor.forClass(Transaction::class.java)
+        verify(transactionRepository, times(1)).save(savedTransaction.capture())
+        assert(Status.CANCELED == savedTransaction.value.status)
     }
 
     @Test

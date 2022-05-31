@@ -17,14 +17,15 @@ abstract class TransactionActionBase {
     abstract fun process(order: Order, executingUser: User)
 
     protected fun saveTransaction(order: Order, status: Status) {
+        order.isActive = false
         val destionationAddress = if (order.operation == Operation.BUY) order.user.walletAddress else order.user.mercadoPagoCVU
         val transaction = Transaction(
             order.price.bidCurrency,
-            order.quantity, // Que quantity usamos acá?????
+            order.quantity,
             order.price,
             order.totalArsPrice,
-            order.user, // Nunca se guarda el usuario que ejecuta la orden? Hay que crear otra orden opuesta y por ende haber 2 transacciones?
-            order.quantity,
+            order.user,
+            order.user.operationsAmount!!,
             destionationAddress,
             status
         )
@@ -33,6 +34,6 @@ abstract class TransactionActionBase {
 
     protected fun deleteOrder(order: Order) {
         saveTransaction(order, Status.CANCELED)
-        orderService.delete(order)
+        orderService.save(order)
     }
 }
