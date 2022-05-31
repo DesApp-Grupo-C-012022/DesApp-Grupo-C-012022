@@ -3,16 +3,10 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 abstract class TransactionActionBase(private var transactionRepository: TransactionRepository, private var orderService: OrderService) {
-
-//    @Autowired
-//    private lateinit var transactionRepository: TransactionRepository
-//    @Autowired
-//    private lateinit var orderService: OrderService
 
     abstract fun process(order: Order, executingUser: User)
 
