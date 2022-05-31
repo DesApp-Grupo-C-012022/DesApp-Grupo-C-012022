@@ -6,10 +6,14 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.Tran
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionConfirmReception
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionConfirmTransfer
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
+@SpringBootTest
 class TransactionFactoryTest {
 
-    private val subject = TransactionActionFactory()
+    @Autowired
+    private var subject = TransactionActionFactory()
 
     @Test
     fun confirmReceptionActionReturnsTransactionConfirmReceptionClass() {

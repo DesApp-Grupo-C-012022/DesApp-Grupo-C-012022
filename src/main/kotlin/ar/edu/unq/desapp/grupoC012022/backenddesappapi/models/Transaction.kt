@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TransactionCompletedDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
@@ -12,11 +13,11 @@ import javax.persistence.*
 class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long, user: User, operationQuantity: Int, destinationAddress: String, status: Status) {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int = 0
-    @OneToOne(cascade = [CascadeType.ALL]) @JoinColumn(name = "id", nullable = false) var currency: Currency = currency
+    @OneToOne(cascade = [CascadeType.ALL]) @JoinColumn(referencedColumnName = "id", nullable = false) var currency: Currency = currency
     @Column(nullable = false) var quantity: Long = quantity
-    @OneToOne @JoinColumn(name = "id", nullable = false) var price: Price = price
+    @OneToOne @JoinColumn(referencedColumnName = "id", nullable = false) var price: Price = price
     @Column(nullable = false) var amount: Long = amount
-    @OneToOne @JoinColumn(name = "id", nullable = false) var user: User = user
+    @OneToOne @JoinColumn(referencedColumnName = "id", nullable = false) var user: User = user
     @Column(nullable = false) var operationQuantity: Int = operationQuantity
     @Column(nullable = false) var destinationAddress: String = destinationAddress
     @Column(nullable = false) var status: Status = status
@@ -27,6 +28,20 @@ class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long
         validateAmount()
         validateOperationQuantity()
         validateDestiantionAddress()
+    }
+
+    fun toTransactionCompletedDto(): TransactionCompletedDto {
+        return TransactionCompletedDto(
+            currency,
+            quantity,
+            price,
+            amount,
+            user.firstName,
+            user.lastName,
+            operationQuantity,
+            destinationAddress,
+            status
+        )
     }
 
     private fun validateQuantity() {

@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.OrderNotFoundException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserNotFoundException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.OrderValidator
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +26,7 @@ class OrderService {
     @Throws(InvalidPropertyException::class)
     fun save(order: Order): Order {
         orderValidator.validateOrder(order)
+        order.price = priceService.save(order.price)
         return orderRepository.save(order)
     }
 
@@ -35,6 +37,11 @@ class OrderService {
 
     fun delete(order: Order) {
         orderRepository.delete(order)
+    }
+
+    @Throws(OrderNotFoundException::class)
+    fun findById(id: Int): Order {
+        return orderRepository.findById(id).orElseThrow { OrderNotFoundException() }
     }
 
     @Throws(UserNotFoundException::class)

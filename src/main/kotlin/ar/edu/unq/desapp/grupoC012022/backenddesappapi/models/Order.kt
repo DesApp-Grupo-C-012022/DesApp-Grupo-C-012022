@@ -14,9 +14,9 @@ class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int = 0,
     @Column(nullable = false) var quantity: Long,
-    @OneToOne @JoinColumn(name = "id", nullable = false) var price: Price,
+    @OneToOne @JoinColumn(referencedColumnName = "id", nullable = false) var price: Price,
     @Column(nullable = false) var totalArsPrice: Long,
-    @OneToOne @JoinColumn(name = "id", nullable = false) var user: User,
+    @OneToOne @JoinColumn(referencedColumnName = "id", nullable = false) var user: User,
     @Column(nullable = false) var operation: Operation,
     @Column(nullable = false) var isActive: Boolean = true,
 ){
