@@ -4,6 +4,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Operation
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Order
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Price
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 
 class OrderBuilder {
     private var order: Order = Order(quantity = 1, price = PriceBuilder().createPriceWithValues().build(), totalArsPrice = 10,user = UserBuilder().createUserWithValues().build(), operation =Operation.BUY)
@@ -15,6 +16,11 @@ class OrderBuilder {
 
     fun quantity(quantity: Long): OrderBuilder {
         order.quantity = quantity
+        return this
+    }
+
+    fun user(user: User): OrderBuilder {
+        order.user = user
         return this
     }
 

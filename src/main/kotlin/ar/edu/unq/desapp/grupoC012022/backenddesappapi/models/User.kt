@@ -7,8 +7,8 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties(value = ["id", "reputation"], allowGetters = true)
-class User(
+@JsonIgnoreProperties(value = ["id", "reputation", "operationsAmount"], allowGetters = true)
+open class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
     @Column(nullable = false) var firstName: String,
     @Column(nullable = false) var lastName: String,
@@ -17,6 +17,7 @@ class User(
     @Column(nullable = false) var password: String,
     @Column(nullable = false, name = "mercado_pago_cvu") var mercadoPagoCVU: String,
     @Column(nullable = false) var walletAddress: String,
+    @Schema(hidden = true) @Column(nullable = false) var operationsAmount: Int? = 0,
     @Schema(hidden = true) @Column(nullable = false) var reputation: Int? = 0
 ) {
 
@@ -28,6 +29,18 @@ class User(
         validatePass()
         validateMPCVU()
         validateWalletAddress()
+    }
+
+    fun increaseReputationBy(amount: Int) {
+        reputation = reputation?.plus(amount)
+    }
+
+    fun increaseOperationsAmount() {
+        operationsAmount = operationsAmount?.plus(1)
+    }
+
+    fun decreaseReputationBy(amount: Int) {
+        reputation = reputation?.minus(amount)
     }
 
     private fun validateFirstName() {

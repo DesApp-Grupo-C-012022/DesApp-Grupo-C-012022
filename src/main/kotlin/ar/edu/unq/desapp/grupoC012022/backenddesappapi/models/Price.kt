@@ -17,7 +17,8 @@ class Price(
     sellingPrice: Long,
     @OneToOne @JoinColumn(name = "id", nullable = false)  var askCurrency: Currency
 ) {
-    @Column(nullable = false) val timestamp: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false)
+    var timestamp: LocalDateTime = LocalDateTime.now()
 
     init{
         validateSellingPrice()

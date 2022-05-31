@@ -35,7 +35,7 @@ class TransactionBuilder {
         return this
     }
 
-    fun operationQuantity(operationQuantity: Long): TransactionBuilder {
+    fun operationQuantity(operationQuantity: Int): TransactionBuilder {
         transaction.operationQuantity = operationQuantity
         return this
     }
@@ -47,11 +47,11 @@ class TransactionBuilder {
 
 
     fun build(): Transaction {
-        return transaction;
+        return transaction
     }
 
     fun createTransactionWithValues(): TransactionBuilder {
         transaction =  Transaction(CurrencyBuilder().createCurrencyWithValues().build(),1,PriceBuilder().createPriceWithValues().build(),1,UserBuilder().createUserWithValues().build(),1,"Address1",Status.PENDING)
-        return this;
+        return this
     }
 }

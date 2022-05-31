@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Price
+import java.time.LocalDateTime
 
 class PriceBuilder {
     private var price: Price = Price(askCurrency = CurrencyBuilder().createCurrencyWithValues().build(), sellingPrice = 100, bidCurrency =  CurrencyBuilder().createCurrencyWithValues().build())
@@ -21,12 +22,17 @@ class PriceBuilder {
         return this
     }
 
+    fun timestamp(timestamp: LocalDateTime): PriceBuilder {
+        price.timestamp = timestamp
+        return this
+    }
+
     fun build(): Price {
-        return price;
+        return price
     }
 
     fun createPriceWithValues(): PriceBuilder {
         price = Price(askCurrency =  CurrencyBuilder().createCurrencyWithValues().build(), sellingPrice =  100, bidCurrency =  CurrencyBuilder().createCurrencyWithValues().build())
-        return this;
+        return this
     }
 }
