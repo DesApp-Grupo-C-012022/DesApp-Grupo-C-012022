@@ -54,7 +54,7 @@ class TransactionService {
             if (!alreadyCheckedCurrencies.contains(t.currency.ticker)) {
                 alreadyCheckedCurrencies.add(t.currency.ticker)
                 val currency = currencyService.getOrUpdateCurrency(t.currency.ticker)
-                listOfCurrencies.add(OperatedVolumeResultCriptoDto(currency, t.quantity, t.price.sellingPrice))
+                listOfCurrencies.add(OperatedVolumeResultCriptoDto(currency, t.quantity, (currency.usdPrice * usdToArs).toLong()))
             }
         }
         return OperatedVolumeResultDto(user.toDeserializableUser(), LocalDateTime.now(), totalUsd, totalArs, listOfCurrencies)
