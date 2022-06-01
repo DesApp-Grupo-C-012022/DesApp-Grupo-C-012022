@@ -23,7 +23,7 @@ class UserController {
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun save(@RequestBody user: User) : DeserializableUser? {
-        return userService.save(user)?.toDeserializableUser()
+        return userService.save(user).toDeserializableUser()
     }
 
     @GetMapping()

@@ -62,18 +62,6 @@ tasks.withType<Test> {
 	finalizedBy(tasks.koverReport)
 }
 
-//tasks.jacocoTestReport {
-//	dependsOn(tasks.test)
-//	reports {
-//		xml.required.set(true)
-//	}
-//	classDirectories.setFrom(files(classDirectories.files.map {
-//		fileTree(it) {
-//			exclude("**/apis/**")
-//		}
-//	}))
-//}
-
 tasks.koverReport {
 	dependsOn(tasks.test)
 }
