@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.sonarqube") version "3.3"
 	id("jacoco")
+	id("org.jetbrains.kotlinx.kover") version "0.5.0"
 	war
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
@@ -44,7 +45,7 @@ sonarqube {
 		property("sonar.projectKey", "jcvincenti_DesApp-Grupo-C-012022")
 		property("sonar.organization", "ggoffredo-jcvincenti")
 		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/kover/project-xml/report.xml")
 		property("sonar.exclusions", "**/apis/**")
 	}
 }
@@ -58,19 +59,23 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
-	finalizedBy(tasks.jacocoTestReport)
+	finalizedBy(tasks.koverReport)
 }
 
-tasks.jacocoTestReport {
+//tasks.jacocoTestReport {
+//	dependsOn(tasks.test)
+//	reports {
+//		xml.required.set(true)
+//	}
+//	classDirectories.setFrom(files(classDirectories.files.map {
+//		fileTree(it) {
+//			exclude("**/apis/**")
+//		}
+//	}))
+//}
+
+tasks.koverReport {
 	dependsOn(tasks.test)
-	reports {
-		xml.required.set(true)
-	}
-	classDirectories.setFrom(files(classDirectories.files.map {
-		fileTree(it) {
-			exclude("**/apis/**")
-		}
-	}))
 }
 
 springBoot {

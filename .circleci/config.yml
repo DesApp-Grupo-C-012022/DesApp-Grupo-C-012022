@@ -17,9 +17,9 @@ jobs:
     steps:
       - checkout
       - run: gradle dependencies
-      - run: ./gradlew jacocoTestReport
+      - run: ./gradlew koverReport
       - store_artifacts:
-          path: build/reports/jacoco/test/jacocoTestReport.xml
+          path: build/reports/kover/project-xml/report.xml
       - run: ./gradlew sonarqube
 workflows:
   version: 2
