@@ -59,7 +59,6 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
-	finalizedBy(tasks.koverReport)
 }
 
 tasks.koverReport {

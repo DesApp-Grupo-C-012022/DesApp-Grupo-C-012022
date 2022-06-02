@@ -41,16 +41,16 @@ class OrderBuilder {
     }
 
     fun build(): Order {
-        return order;
+        return order
     }
 
     fun createOrderWithValues(): OrderBuilder {
         order =  Order(quantity = 1, price = PriceBuilder().createPriceWithValues().build(), totalArsPrice =  10, user =  UserBuilder().createUserWithValues().build(),operation = Operation.BUY)
-        return this;
+        return this
     }
 
     fun buildDto(): OrderDto {
-        var orderDto = OrderDto()
+        val orderDto = OrderDto()
         orderDto.price = order.price.sellingPrice
         orderDto.operation = order.operation
         orderDto.quantity = order.quantity
@@ -62,7 +62,7 @@ class OrderBuilder {
     }
 
     fun buildOfferedDto(): OfferedOrderDto {
-        var orderDto = OfferedOrderDto()
+        val orderDto = OfferedOrderDto()
         orderDto.timestamp = order.price.timestamp
         orderDto.ticker = order.price.bidCurrency.ticker
         orderDto.quantity = order.quantity

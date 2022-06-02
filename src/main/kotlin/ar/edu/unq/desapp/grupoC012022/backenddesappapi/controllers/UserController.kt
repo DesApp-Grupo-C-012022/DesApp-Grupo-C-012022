@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 class UserController {
 
     @Autowired
-    lateinit var userService: UserService
+    lateinit var userService: UserService //NOSONAR
 
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,7 +26,7 @@ class UserController {
         return userService.save(user).toDeserializableUser()
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     fun getUsers(): List<DeserializableUser?> {

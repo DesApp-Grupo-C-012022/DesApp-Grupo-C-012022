@@ -18,7 +18,7 @@ class OrderController {
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody orderDto: OrderDto) : OrderSavedDto? {
-        return orderService.create(orderDto)?.toOrderSavedDto()
+        return orderService.create(orderDto).toOrderSavedDto()
     }
 
     @GetMapping("/orders")
