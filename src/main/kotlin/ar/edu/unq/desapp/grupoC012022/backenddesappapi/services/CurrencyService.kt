@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

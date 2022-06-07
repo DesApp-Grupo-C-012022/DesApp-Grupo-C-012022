@@ -21,6 +21,8 @@ open class User(
     @Schema(hidden = true) @Column(nullable = false) var operationsAmount: Int? = 0,
     @Schema(hidden = true) @Column(nullable = false) var reputation: Int? = 0
 ) {
+    private val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+    private val passwordRegex = "^(?=[^A-Z]*+)(?=[^a-z]*+)(?=[^0-9]*+)(?=.*?[#?!@\$ %^&*-]).{8,}\$"
 
     fun validate() {
         validateFirstName()
@@ -96,12 +98,10 @@ open class User(
     }
 
     private fun isEmailValid(email: String): Boolean {
-        val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
-        return EMAIL_REGEX.toRegex().matches(email)
+        return emailRegex.toRegex().matches(email)
     }
 
     private fun isPassStrong(email: String): Boolean {
-        val PASS_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$ %^&*-]).{8,}\$"
-        return PASS_REGEX.toRegex().matches(email)
+        return passwordRegex.toRegex().matches(email)
     }
 }
