@@ -4,9 +4,8 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.DatabaseServiceHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.PriceRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import com.google.gson.Gson
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -34,9 +33,7 @@ class OrderControllerIntegrationTest {
     @Autowired
     private lateinit var userRepository: UserRepository
     @Autowired
-    private lateinit var orderRepository: OrderRepository
-    @Autowired
-    private lateinit var priceRepository: PriceRepository
+    private lateinit var orderService: OrderService
     private lateinit var mockMvc: MockMvc
     private lateinit var order: OrderBuilder
     private lateinit var user: UserBuilder
@@ -103,8 +100,7 @@ class OrderControllerIntegrationTest {
     @Transactional
     fun getActiveOrdersTest() {
         val order = order.user(userFromOrder).build()
-        order.price = priceRepository.save(order.price)
-        orderRepository.save(order)
+        orderService.save(order)
         this.mockMvc.get("/orders").andExpect {
             status { isOk() }
             content {

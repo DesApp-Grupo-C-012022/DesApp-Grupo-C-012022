@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 class UserController {
 
     @Autowired
-    lateinit var userService: UserService //NOSONAR
+    lateinit var userService: UserService
 
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
