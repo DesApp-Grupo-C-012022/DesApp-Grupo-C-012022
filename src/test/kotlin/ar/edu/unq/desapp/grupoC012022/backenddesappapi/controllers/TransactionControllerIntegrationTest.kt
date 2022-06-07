@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TransactionControllerIntegrationTest {
 
-
     @Autowired
     private lateinit var transactionController: TransactionController
     @Autowired
@@ -65,9 +64,8 @@ class TransactionControllerIntegrationTest {
     @Test
     @Transactional
     fun postUserCannotBuyItsOwnOrderTransactionTest() {
-        val userFromDb1 = userService.getByName(userFromOrder.firstName, userFromOrder.lastName)
-        assert(userFromDb1.operationsAmount == 100)
-        val transactionDto = TransactionDto(1, 1, TransactionAction.CONFIRM_TRANSFER)
+        assert(userFromOrder.operationsAmount == 100)
+        val transactionDto = TransactionDto(userFromOrder.id!!, orderFromDb.id, TransactionAction.CONFIRM_TRANSFER)
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
@@ -89,9 +87,8 @@ class TransactionControllerIntegrationTest {
             .build()
         anotherUser = userService.save(anotherUser)
         assert(anotherUser.operationsAmount == 100)
-        val userFromDb = userService.getByName(userFromOrder.firstName, userFromOrder.lastName)
-        assert(userFromDb.operationsAmount == 100)
-        val transactionDto = TransactionDto(anotherUser.id!!, 1, TransactionAction.CONFIRM_RECEPTION)
+        assert(userFromOrder.operationsAmount == 100)
+        val transactionDto = TransactionDto(anotherUser.id!!, orderFromDb.id, TransactionAction.CONFIRM_RECEPTION)
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
