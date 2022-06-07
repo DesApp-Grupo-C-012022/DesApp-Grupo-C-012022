@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis
 
-import org.springframework.http.ResponseEntity
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -9,13 +10,14 @@ import org.springframework.web.util.UriComponentsBuilder
 class BinanceApi {
     private val BASE_URL = "https://api1.binance.com/api/v3/ticker/price"
 
-    fun getCurrency(currency: String, referenceCurrency: String): ResponseEntity<*> {
+    fun getCurrency(currency: String, referenceCurrency: String): Currency {
         val restTemplate = RestTemplate()
         val urlTemplate = UriComponentsBuilder.fromHttpUrl(BASE_URL)
             .queryParam("symbol", "$currency$referenceCurrency")
             .encode()
             .toUriString()
-        return restTemplate.getForEntity(urlTemplate, String::class.java)
+        val response = restTemplate.getForEntity(urlTemplate, String::class.java)
+        return ObjectMapper().readValue(response.body.toString(), Currency::class.java)
     }
 
     fun supportedCurrencies(): List<String> {

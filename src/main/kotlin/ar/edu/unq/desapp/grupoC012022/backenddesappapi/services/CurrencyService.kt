@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -25,12 +24,9 @@ class CurrencyService {
     }
     fun updateCurrency(currency: String): Currency {
         this.validateCurrency(currency)
-        val referenceCurrency = "USDT"
-        val response = this.binanceApi.getCurrency(currency, referenceCurrency)
-        val objectMapper = ObjectMapper()
-        val newCurrency = objectMapper.readValue(response.body.toString(), Currency::class.java)
+        val newCurrency = this.binanceApi.getCurrency(currency, "USDT")
         val lastCurrency = getCurrency(currency)
-        if(lastCurrency != null){
+        if (lastCurrency != null) {
             lastCurrency.latest = false
             currencyRepository.save(lastCurrency)
         }

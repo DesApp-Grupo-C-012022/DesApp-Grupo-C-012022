@@ -1,17 +1,15 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.DatabaseServiceHelper
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
 import com.google.gson.Gson
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import org.junit.jupiter.api.TestInstance
 import org.mockito.MockitoAnnotations
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -19,16 +17,24 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserControllerIntegrationTest {
-    @Mock
-    private lateinit var userServiceMock: UserService
-    @InjectMocks
+    @Autowired
     private lateinit var userController: UserController
+    @Autowired
+    private lateinit var userRepository: UserRepository
+    @Autowired
+    private lateinit var databaseServiceHelper: DatabaseServiceHelper
     private lateinit var mockMvc: MockMvc
     private lateinit var user: UserBuilder
+
     private val userBuilder = UserBuilder()
+
+    @BeforeAll
+    fun clearDatabase() = databaseServiceHelper.clearDatabase()
 
     @BeforeEach
     fun setUp() {
@@ -42,8 +48,8 @@ class UserControllerIntegrationTest {
     }
 
     @Test
+    @Transactional
     fun postSuccessfulUserTest() {
-        `when`(userServiceMock.save(user.build())).thenReturn(user.id(1).build())
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
@@ -55,8 +61,9 @@ class UserControllerIntegrationTest {
     }
 
     @Test
+    @Transactional
     fun postAlreadyExistentUserTest() {
-        `when`(userServiceMock.save(MockitoHelper.anyObject())).thenThrow(UserAlreadyExistsException::class.java)
+        userRepository.save(user.build())
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
@@ -68,13 +75,13 @@ class UserControllerIntegrationTest {
     }
 
     @Test
+    @Transactional
     fun postInvalidPropertyUserTest() {
-        `when`(userServiceMock.save(MockitoHelper.anyObject())).thenThrow(InvalidPropertyException::class.java)
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
                     .post("/users")
-                    .content(Gson().toJson(user.build()))
+                    .content(Gson().toJson(user.password("a").build()))
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isUnprocessableEntity)
@@ -82,11 +89,20 @@ class UserControllerIntegrationTest {
 
 
     @Test
+    @Transactional
     fun getUsersTest() {
-        `when`(this.userServiceMock.getUsers()).thenReturn(listOf(
-            userBuilder.createUserWithValues().firstName("usuario1").build().toDeserializableUser(),
-            userBuilder.createUserWithValues().firstName("usuario2").build().toDeserializableUser(),
-        ))
+        val user1 = userBuilder
+            .createUserWithValues()
+            .firstName("usuario1")
+            .email("usuario1@gmail.com")
+            .build()
+        val user2 = userBuilder
+            .createUserWithValues()
+            .firstName("usuario2")
+            .email("usuario2@gmail.com")
+            .build()
+        userRepository.save(user1)
+        userRepository.save(user2)
         this.mockMvc.get("/users").andExpect {
             status { isOk() }
             content {
