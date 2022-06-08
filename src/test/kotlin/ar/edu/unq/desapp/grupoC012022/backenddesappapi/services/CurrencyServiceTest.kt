@@ -3,11 +3,11 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.BinanceApiMockBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.CurrencyBuilder
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.jobs.CurrencyPriceJob
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
-import org.junit.jupiter.api.Assertions.assertDoesNotThrow
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -25,7 +25,7 @@ class CurrencyServiceTest {
 
 	@InjectMocks
 	private lateinit var subject : CurrencyService
-	private val currencyBuilder = CurrencyBuilder().createCurrencyWithValues()
+	private val currencyBuilder = CurrencyBuilder()
 
 	@BeforeEach
 	fun setUp() {
@@ -35,8 +35,13 @@ class CurrencyServiceTest {
 			.mockCurrency("BNB", 1.01)
 			.mockCurrency("BTC", 40000.1254)
 			.prepareMock()
-
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB")).thenReturn(currencyBuilder.ticker("BNBUSDT").usdPrice(1.01).build())
+		val bnbCurrency = currencyBuilder.createCurrencyWithValues().ticker("BNBUSDT").usdPrice(1.01).build()
+		val btcCurrency = currencyBuilder.createCurrencyWithValues().ticker("BTCUSDT").usdPrice(40000.1254).build()
+		`when`(currencyRepositoryMock.findByTimestampGreaterThan(MockitoHelper.anyObject())).thenReturn(
+			listOf(bnbCurrency, btcCurrency)
+		)
+		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB")).thenReturn(bnbCurrency)
+		`when`(currencyRepositoryMock.findByTickerAndLatest("BTC")).thenReturn(btcCurrency)
 	}
 
 	@Test
@@ -69,5 +74,16 @@ class CurrencyServiceTest {
 	@Test
 	fun currencyPriceJobRunTest() {
 		assertDoesNotThrow { CurrencyPriceJob().run() }
+	}
+
+	@Test
+	fun getPricesTest() {
+		val criptos = this.subject.getPrices()
+		assertEquals(2, criptos.size)
+
+		assertEquals("BNBUSDT", criptos.first().ticker)
+		assertNotNull(criptos.first().timestamp)
+		assertEquals("BTCUSDT", criptos.last().ticker)
+		assertNotNull(criptos.last().timestamp)
 	}
 }

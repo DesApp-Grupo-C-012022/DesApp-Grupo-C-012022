@@ -77,4 +77,35 @@ class CurrencyControllerIntegrationTest {
             }
         }
     }
+
+    @Test
+    fun getPricesTest() {
+        `when`(this.currencyServiceMock.getPrices()).thenReturn(listOf(
+            Currency(ticker = "BNBUSDT", usdPrice =  1.01),
+            Currency(ticker = "BTCUSDT", usdPrice =  40000.08),
+        ))
+        this.mockMvc.get("/currencies/prices").andExpect {
+            status { isOk() }
+            content {
+                jsonPath("$.[0].ticker") {
+                    value("BNBUSDT")
+                }
+                jsonPath("$.[0].usdPrice") {
+                    value(1.01)
+                }
+                jsonPath("$.[0].timestamp") {
+                    exists()
+                }
+                jsonPath("$.[1].ticker") {
+                    value("BTCUSDT")
+                }
+                jsonPath("$.[1].usdPrice") {
+                    value(40000.08)
+                }
+                jsonPath("$.[1].timestamp") {
+                    exists()
+                }
+            }
+        }
+    }
 }

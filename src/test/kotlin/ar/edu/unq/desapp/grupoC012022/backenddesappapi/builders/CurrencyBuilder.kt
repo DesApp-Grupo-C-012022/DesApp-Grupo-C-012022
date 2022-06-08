@@ -10,6 +10,7 @@ class CurrencyBuilder {
     }
 
     fun createCurrencyWithValues(): CurrencyBuilder {
+        currency = Currency(ticker =  "BTC", usdPrice =  50000.0)
         return this;
     }
 

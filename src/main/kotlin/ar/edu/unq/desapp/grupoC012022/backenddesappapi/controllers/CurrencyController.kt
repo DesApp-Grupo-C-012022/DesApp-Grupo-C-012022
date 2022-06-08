@@ -25,4 +25,11 @@ class CurrencyController {
     fun updateCurrencies(): List<Currency?> {
         return currencyService.updateCurrencies()
     }
+
+    @GetMapping("/currencies/prices")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    fun getPrices(): List<Currency> {
+        return currencyService.getPrices()
+    }
 }
