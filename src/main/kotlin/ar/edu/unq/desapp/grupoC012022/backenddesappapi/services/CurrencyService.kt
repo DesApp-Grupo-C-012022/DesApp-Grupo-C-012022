@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepo
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class CurrencyService {
@@ -52,5 +53,9 @@ class CurrencyService {
 
     fun getOrUpdateCurrency(ticker: String): Currency {
         return getCurrency(ticker) ?: updateCurrency(ticker)
+    }
+
+    fun getPrices(): List<Currency> {
+        return currencyRepository.findByTimestampGreaterThan(LocalDateTime.now().minusDays(1))
     }
 }
