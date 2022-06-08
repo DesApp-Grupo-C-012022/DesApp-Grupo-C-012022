@@ -1,14 +1,13 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
+import kotlin.math.abs
+
 enum class Operation {
     BUY, SELL;
     companion object {
         fun opposite(op: Operation): Operation {
-            return if (op == BUY) SELL else BUY
-        }
-
-        fun toTransactionAction(op: Operation): TransactionAction {
-            return if (op == BUY) TransactionAction.CONFIRM_RECEPTION else TransactionAction.CONFIRM_TRANSFER
+            return values()[abs(op.ordinal - 1)]
+            //return if (op == BUY) SELL else BUY
         }
     }
 }
