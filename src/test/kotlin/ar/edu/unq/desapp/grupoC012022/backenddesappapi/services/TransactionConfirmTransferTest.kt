@@ -74,7 +74,7 @@ class TransactionConfirmTransferTest {
         subject.process(order, executingUser)
         assert(userFromOrder.reputation == 20)
         assert(executingUser.reputation == 20)
-        verify(transactionRepository, times(1)).save(savedTransaction.capture())
+        verify(transactionRepository, times(2)).save(savedTransaction.capture())
         assert(Status.APPROVED == savedTransaction.value.status)
     }
 
@@ -96,7 +96,7 @@ class TransactionConfirmTransferTest {
         subject.process(order, executingUser)
         assert(userFromOrder.reputation == 15)
         assert(executingUser.reputation == 15)
-        verify(transactionRepository, times(1)).save(savedTransaction.capture())
+        verify(transactionRepository, times(2)).save(savedTransaction.capture())
         assert(Status.APPROVED == savedTransaction.value.status)
     }
 
