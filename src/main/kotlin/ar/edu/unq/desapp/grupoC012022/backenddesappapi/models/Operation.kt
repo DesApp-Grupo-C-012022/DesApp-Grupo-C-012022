@@ -7,7 +7,6 @@ enum class Operation {
     companion object {
         fun opposite(op: Operation): Operation {
             return values()[abs(op.ordinal - 1)]
-            //return if (op == BUY) SELL else BUY
         }
     }
 }
