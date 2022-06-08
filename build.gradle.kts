@@ -46,6 +46,7 @@ sonarqube {
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
 		property("sonar.exclusions", "**/apis/**")
+//		property("sonar.exclusions", "**/apis/**, **/jobs/**")
 	}
 }
 
@@ -67,7 +68,7 @@ tasks.jacocoTestReport {
 	}
 	classDirectories.setFrom(files(classDirectories.files.map {
 		fileTree(it) {
-			exclude("**/apis/**")
+			exclude("**/apis/**", "**/jobs/**")
 		}
 	}))
 }
