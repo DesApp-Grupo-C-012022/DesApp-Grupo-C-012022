@@ -37,7 +37,6 @@ class TransactionConfirmReception @Autowired constructor(
 ) {
     override fun doProcess(order: Order, executingUser: User): Transaction {
         val transaction = saveTransaction(order, Status.APPROVED)
-        transferMoney(order.totalArsPrice, order.user.mercadoPagoCVU, executingUser.mercadoPagoCVU)
         transferCriptoCurrency(order.quantity, order.price.askCurrency.ticker, executingUser.walletAddress, order.user.walletAddress)
         return transaction
     }
@@ -58,5 +57,16 @@ class TransactionConfirmReception @Autowired constructor(
         if (order.operation == Operation.SELL) {
             throw CantConfirmReceptionOnSellOrders()
         }
+    }
+
+    override fun doGetOppositeTransactionConfirm(
+        userService: UserService,
+        currencyService: CurrencyService,
+        mercadoPagoApi: MercadoPagoApi,
+        criptoExchanger: CriptoExchanger,
+        transactionRepository: TransactionRepository,
+        orderService: OrderService
+    ): TransactionConfirmBase {
+        return TransactionConfirmTransfer(userService, currencyService, mercadoPagoApi, criptoExchanger, transactionRepository, orderService)
     }
 }

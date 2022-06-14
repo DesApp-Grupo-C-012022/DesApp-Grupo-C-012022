@@ -30,6 +30,16 @@ class Order(
         return OrderSavedDto(id, quantity, price, totalArsPrice, user.toDeserializableUser(), operation, isActive)
     }
 
+    fun createOpposite(executingUser: User): Order {
+        return Order(
+            quantity = quantity,
+            price = price,
+            totalArsPrice = totalArsPrice,
+            user = executingUser,
+            operation = Operation.opposite(operation)
+        )
+    }
+
     private fun validateArsPrice() {
         if(totalArsPrice < 0)
             throw InvalidPropertyException()

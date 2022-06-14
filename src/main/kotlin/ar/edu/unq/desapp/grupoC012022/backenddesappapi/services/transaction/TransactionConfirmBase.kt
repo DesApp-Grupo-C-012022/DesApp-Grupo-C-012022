@@ -27,6 +27,14 @@ abstract class TransactionConfirmBase(
     protected abstract fun doProcess(order: Order, executingUser: User): Transaction
     protected abstract fun checkBidCurrencyVariation(order: Order)
     protected abstract fun checkActionAgainstOrderAction(order: Order)
+    protected abstract fun doGetOppositeTransactionConfirm(
+        userService: UserService,
+        currencyService: CurrencyService,
+        mercadoPagoApi: MercadoPagoApi,
+        criptoExchanger: CriptoExchanger,
+        transactionRepository: TransactionRepository,
+        orderService: OrderService
+    ): TransactionConfirmBase
 
     override fun process(order: Order, executingUser: User): Transaction {
         try {
@@ -37,9 +45,31 @@ abstract class TransactionConfirmBase(
             return deleteOrder(order)
         }
         checkOrderTimestamp(order, executingUser)
+        createIfNeededAndProcessOppositeOrder(order.createOpposite(executingUser), order.user)
         return doProcess(order, executingUser)
     }
 
+    private fun createIfNeededAndProcessOppositeOrder(order: Order, user: User) {
+        getOppositeTransactionConfirm(
+            userService,
+            currencyService,
+            mercadoPagoApi,
+            criptoExchanger,
+            transactionRepository,
+            orderService
+        ).doProcess(order, user)
+    }
+
+    private fun getOppositeTransactionConfirm(
+        userService: UserService,
+        currencyService: CurrencyService,
+        mercadoPagoApi: MercadoPagoApi,
+        criptoExchanger: CriptoExchanger,
+        transactionRepository: TransactionRepository,
+        orderService: OrderService
+    ): TransactionConfirmBase {
+        return doGetOppositeTransactionConfirm(userService, currencyService, mercadoPagoApi, criptoExchanger, transactionRepository, orderService)
+    }
     protected fun transferMoney(totalAmountArs: Long, fromMercadoPagoCvu: String, toMercadoPagoCvu: String) {
         mercadoPagoApi.transferMoney(totalAmountArs, fromMercadoPagoCvu, toMercadoPagoCvu)
     }

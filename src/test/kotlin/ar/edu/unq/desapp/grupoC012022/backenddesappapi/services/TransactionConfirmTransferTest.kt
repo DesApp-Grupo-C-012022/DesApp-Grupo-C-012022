@@ -38,7 +38,7 @@ class TransactionConfirmTransferTest {
     private lateinit var userFromOrder: User
     private lateinit var executingUser: User
     private lateinit var order: Order
-    private lateinit var savedTransaction: ArgumentCaptor<Transaction>
+    private lateinit var transactionsCaptor: ArgumentCaptor<Transaction>
 
     private val orderBuilder = OrderBuilder()
     private val userBuilder = UserBuilder()
@@ -53,7 +53,7 @@ class TransactionConfirmTransferTest {
         `when`(userService.save(userFromOrder)).thenReturn(userFromOrder)
         `when`(userService.save(executingUser)).thenReturn(executingUser)
         `when`(transactionRepository.save(any())).thenReturn(transactionBuilder.createTransactionWithValues().build())
-        savedTransaction = ArgumentCaptor.forClass(Transaction::class.java)
+        transactionsCaptor = ArgumentCaptor.forClass(Transaction::class.java)
     }
 
     @Test
@@ -74,8 +74,11 @@ class TransactionConfirmTransferTest {
         subject.process(order, executingUser)
         assert(userFromOrder.reputation == 20)
         assert(executingUser.reputation == 20)
-        verify(transactionRepository, times(1)).save(savedTransaction.capture())
-        assert(Status.APPROVED == savedTransaction.value.status)
+        verify(transactionRepository, times(2)).save(transactionsCaptor.capture())
+        assert(Status.APPROVED == transactionsCaptor.allValues[0].status)
+        assert(executingUser.id == transactionsCaptor.allValues[0].user.id)
+        assert(Status.APPROVED == transactionsCaptor.allValues[1].status)
+        assert(order.user.id == transactionsCaptor.allValues[1].user.id)
     }
 
     @Test
@@ -96,8 +99,8 @@ class TransactionConfirmTransferTest {
         subject.process(order, executingUser)
         assert(userFromOrder.reputation == 15)
         assert(executingUser.reputation == 15)
-        verify(transactionRepository, times(1)).save(savedTransaction.capture())
-        assert(Status.APPROVED == savedTransaction.value.status)
+        verify(transactionRepository, times(2)).save(transactionsCaptor.capture())
+        assert(Status.APPROVED == transactionsCaptor.value.status)
     }
 
     @Test
@@ -121,7 +124,7 @@ class TransactionConfirmTransferTest {
         subject.process(order, executingUser)
         assert(userFromOrder.reputation == 10)
         assert(executingUser.reputation == 10)
-        verify(transactionRepository, times(1)).save(savedTransaction.capture())
-        assert(Status.CANCELED == savedTransaction.value.status)
+        verify(transactionRepository, times(1)).save(transactionsCaptor.capture())
+        assert(Status.CANCELED == transactionsCaptor.value.status)
     }
 }

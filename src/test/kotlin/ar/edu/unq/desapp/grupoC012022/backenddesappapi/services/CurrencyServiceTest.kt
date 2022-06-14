@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.BinanceApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.BinanceApiMockBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.CurrencyBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.jobs.CurrencyPriceJob
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
 import org.junit.jupiter.api.Assertions.*
@@ -72,15 +71,9 @@ class CurrencyServiceTest {
 	}
 
 	@Test
-	fun currencyPriceJobRunTest() {
-		assertDoesNotThrow { CurrencyPriceJob().run() }
-	}
-
-	@Test
 	fun getPricesTest() {
 		val criptos = this.subject.getPrices()
 		assertEquals(2, criptos.size)
-
 		assertEquals("BNBUSDT", criptos.first().ticker)
 		assertNotNull(criptos.first().timestamp)
 		assertEquals("BTCUSDT", criptos.last().ticker)

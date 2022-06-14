@@ -6,7 +6,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import org.springframework.stereotype.Component
 
 @Component
-abstract class TransactionActionBase(private var transactionRepository: TransactionRepository, private var orderService: OrderService) {
+abstract class TransactionActionBase(protected var transactionRepository: TransactionRepository, protected var orderService: OrderService) {
 
     abstract fun process(order: Order, executingUser: User): Transaction
 
