@@ -61,7 +61,9 @@ class OrderService {
     }
 
     fun toOfferedDto(order: Order): OfferedOrderDto {
-        var orderDto = OfferedOrderDto()
+        val orderDto = OfferedOrderDto()
+        orderDto.id = order.id
+        orderDto.operation = order.operation
         orderDto.timestamp = order.price.timestamp
         orderDto.ticker = order.price.bidCurrency.ticker
         orderDto.quantity = order.quantity
