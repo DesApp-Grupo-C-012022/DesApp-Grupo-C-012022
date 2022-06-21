@@ -3,7 +3,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.validators
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserAlreadyExistsException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

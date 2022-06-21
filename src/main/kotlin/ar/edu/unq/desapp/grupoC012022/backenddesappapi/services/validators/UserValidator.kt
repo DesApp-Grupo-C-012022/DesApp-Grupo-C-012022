@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserAlreadyExistsException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

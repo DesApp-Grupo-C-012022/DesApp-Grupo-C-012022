@@ -5,7 +5,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.BinanceApiMockBu
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.CurrencyBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CurrencyNotSupportedException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CurrencyNotSupportedException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

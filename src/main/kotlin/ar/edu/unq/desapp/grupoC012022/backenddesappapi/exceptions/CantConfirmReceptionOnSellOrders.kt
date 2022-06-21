@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions
+package ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

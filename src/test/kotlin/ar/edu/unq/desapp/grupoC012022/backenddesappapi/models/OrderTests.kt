@@ -1,8 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.apis.DolarSiApi
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.OrderBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

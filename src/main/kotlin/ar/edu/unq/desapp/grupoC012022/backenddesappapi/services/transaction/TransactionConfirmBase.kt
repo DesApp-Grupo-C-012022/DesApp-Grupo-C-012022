@@ -7,8 +7,8 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionR
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantBuyYourOwnOrderException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CancelOrderDuePriceDifferenceException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CantBuyYourOwnOrderException
 import java.time.LocalDateTime
 import org.springframework.stereotype.Component
 import java.time.Duration

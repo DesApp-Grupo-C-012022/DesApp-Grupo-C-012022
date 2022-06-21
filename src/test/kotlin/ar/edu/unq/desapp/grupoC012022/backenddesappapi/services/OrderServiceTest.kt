@@ -5,7 +5,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.OrderDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.OrderRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.OrderValidator
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -69,7 +69,7 @@ class OrderServiceTest {
 		val orderToCreate = order.build()
 		val dborder = order.id(1).build()
 		val user = user.id(1).build()
-		var orderDto = OrderDto()
+		val orderDto = OrderDto()
 		orderDto.price = orderToCreate.price.sellingPrice
 		orderDto.ticker	= orderToCreate.price.bidCurrency.ticker
 		orderDto.quantity = orderToCreate.quantity

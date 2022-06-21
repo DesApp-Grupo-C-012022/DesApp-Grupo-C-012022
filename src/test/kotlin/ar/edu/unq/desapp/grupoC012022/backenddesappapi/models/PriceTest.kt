@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.PriceBuilder
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
