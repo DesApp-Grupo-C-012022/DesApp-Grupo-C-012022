@@ -2,9 +2,9 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.UserBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.InvalidPropertyException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserAlreadyExistsException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.UserNotFoundException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserAlreadyExistsException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserNotFoundException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

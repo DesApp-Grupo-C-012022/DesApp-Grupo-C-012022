@@ -8,7 +8,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Status
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Transaction
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantCancelOrderThatIsNotYoursException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CantCancelOrderThatIsNotYoursException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.transaction.TransactionCancel
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

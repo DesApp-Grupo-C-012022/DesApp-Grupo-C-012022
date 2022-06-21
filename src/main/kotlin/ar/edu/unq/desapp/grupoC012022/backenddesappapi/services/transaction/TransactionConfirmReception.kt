@@ -5,8 +5,8 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionR
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.CurrencyService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CancelOrderDuePriceDifferenceException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantConfirmReceptionOnSellOrders
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CancelOrderDuePriceDifferenceException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CantConfirmReceptionOnSellOrders
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 

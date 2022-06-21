@@ -6,7 +6,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.TransactionRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.OrderService
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.exceptions.CantCancelOrderThatIsNotYoursException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CantCancelOrderThatIsNotYoursException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
