@@ -38,6 +38,8 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("com.google.code.gson:gson:2.9.0")
 	testImplementation("com.tngtech.archunit:archunit-junit5:0.23.1")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+
 }
 
 sonarqube {

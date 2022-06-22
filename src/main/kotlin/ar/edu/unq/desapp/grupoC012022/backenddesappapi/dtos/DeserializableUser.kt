@@ -9,5 +9,6 @@ class DeserializableUser(
     var mercadoPagoCVU: String,
     var walletAddress: String,
     var operationsAmount: Int? = 0,
-    var reputation: Int? = 0
+    var reputation: Int? = 0,
+    var password: String
 )
