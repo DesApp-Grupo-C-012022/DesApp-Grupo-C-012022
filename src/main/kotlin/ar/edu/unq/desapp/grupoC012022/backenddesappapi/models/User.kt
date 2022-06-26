@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
+import com.fasterxml.jackson.annotation.JsonFilter
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.swagger.v3.oas.annotations.media.Schema
 import javax.persistence.*
@@ -9,6 +10,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties(value = ["id", "reputation", "operationsAmount"], allowGetters = true)
+@JsonFilter("userFilter")
 open class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int? = 0,
     @Column(nullable = false) var firstName: String,

@@ -32,6 +32,7 @@ dependencies {
 	implementation("joda-time:joda-time:2.10.14")
 	implementation("org.aspectj:aspectjrt:1.9.9.1")
 	implementation("org.aspectj:aspectjweaver:1.8.9")
+	implementation("org.json:json:20220320")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.6.7")
