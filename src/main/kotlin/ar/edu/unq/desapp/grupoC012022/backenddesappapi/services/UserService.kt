@@ -10,6 +10,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserNotFoundEx
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.security.JwtProvider
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,9 +23,10 @@ class UserService {
     @Autowired
     lateinit var userValidator: UserValidator
     @Autowired
-    lateinit var passwordEncoder: PasswordEncoder
-    @Autowired
     lateinit var jwtProvider: JwtProvider
+
+    val passwordEncoder = BCryptPasswordEncoder()
+
 
     @Throws(UserAlreadyExistsException::class, InvalidPropertyException::class)
     @Transactional
