@@ -39,8 +39,8 @@ class CurrencyServiceTest {
 		`when`(currencyRepositoryMock.findByTimestampGreaterThan(MockitoHelper.anyObject())).thenReturn(
 			listOf(bnbCurrency, btcCurrency)
 		)
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB")).thenReturn(bnbCurrency)
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BTC")).thenReturn(btcCurrency)
+		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BNBUSDT")).thenReturn(bnbCurrency)
+		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BTCUSDT")).thenReturn(btcCurrency)
 	}
 
 	@Test
