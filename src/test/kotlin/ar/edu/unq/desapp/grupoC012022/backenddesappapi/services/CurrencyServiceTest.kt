@@ -51,9 +51,9 @@ class CurrencyServiceTest {
 
 	@Test
 	fun getCurrencyTest() {
-		val cripto = this.subject.getCurrency("BNB")
-		assertEquals("BNBUSDT", cripto?.ticker)
-		assertEquals(1.01, cripto?.usdPrice)
+		val cripto = this.subject.getOrUpdateCurrency("BNB")
+		assertEquals("BNBUSDT", cripto.ticker)
+		assertEquals(1.01, cripto.usdPrice)
 	}
 
 	@Test
