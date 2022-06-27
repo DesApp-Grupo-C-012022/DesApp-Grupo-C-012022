@@ -10,17 +10,15 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
-class AuthFilter : OncePerRequestFilter() {
+class AuthFilter(userService: UserService) : OncePerRequestFilter() {
 
-    @Autowired
-    lateinit var userService: UserService
+    val userService = userService
 
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-        var uri = request.requestURI
         if (request.getHeader(HttpHeaders.AUTHORIZATION).isNullOrEmpty())
             throw IOException()
 
@@ -28,5 +26,8 @@ class AuthFilter : OncePerRequestFilter() {
         val chunks = tokenHeader.split(" ").toTypedArray()
         if (chunks.size != 2 || chunks[0] != "Bearer" || userService.validate(chunks[1]) == null)
             throw IOException()
-        }
+
+        filterChain.doFilter(request, response);
+    }
+
 }
