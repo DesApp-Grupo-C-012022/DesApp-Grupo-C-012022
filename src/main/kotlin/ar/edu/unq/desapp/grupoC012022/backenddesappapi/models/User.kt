@@ -47,7 +47,7 @@ open class User(
     }
 
     fun toDeserializableUser(): DeserializableUser {
-        return DeserializableUser(id!!, firstName, lastName, email, homeAddress, mercadoPagoCVU, walletAddress, operationsAmount, reputation)
+        return DeserializableUser(id!!, firstName, lastName, email, homeAddress, mercadoPagoCVU, walletAddress, operationsAmount, reputation,password)
     }
 
     private fun validateFirstName() {

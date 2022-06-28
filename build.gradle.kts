@@ -26,7 +26,6 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.7")
 	implementation("org.postgresql:postgresql:42.3.4")
 	implementation("org.apache.tomcat:tomcat-jdbc:10.1.0-M14")
 	implementation("joda-time:joda-time:2.10.14")
@@ -38,6 +37,9 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("com.google.code.gson:gson:2.9.0")
 	testImplementation("com.tngtech.archunit:archunit-junit5:0.23.1")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
 }
 
 sonarqube {
