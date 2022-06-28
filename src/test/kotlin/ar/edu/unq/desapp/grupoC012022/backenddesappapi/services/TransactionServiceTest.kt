@@ -78,7 +78,7 @@ class TransactionServiceTest {
 	@Test
 	fun processTransactionWithASellOrderTest() {
 		prepareTestContextForTransaction(2, TransactionAction.CONFIRM_TRANSFER, Operation.SELL, transactionConfirmTransferMock)
-		`when`(currencyService.getCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
+		`when`(currencyService.getOrUpdateCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
 		subject.processTransaction(transactionDto)
 		verify(mercadoPagoApiMock, times(1))
 			.transferMoney(100000, executingUser.mercadoPagoCVU, userFromOrder.mercadoPagoCVU)
@@ -89,7 +89,7 @@ class TransactionServiceTest {
 	@Test
 	fun processTransactionWithABuyOrderTest() {
 		prepareTestContextForTransaction(2, TransactionAction.CONFIRM_RECEPTION, Operation.BUY, transactionConfirmReceptionMock)
-		`when`(currencyService.getCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
+		`when`(currencyService.getOrUpdateCurrency("BTC")).thenReturn(Currency(ticker = "BTC", usdPrice = 50000.0))
 		subject.processTransaction(transactionDto)
 		verify(mercadoPagoApiMock, times(1))
 			.transferMoney(100000, userFromOrder.mercadoPagoCVU, executingUser.mercadoPagoCVU)

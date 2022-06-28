@@ -45,7 +45,7 @@ class TransactionConfirmReception @Autowired constructor(
         // Si al momento de concretar una intención de compra,
         // la cotización de sistema está por encima del precio manifestado por el usuario,
         // la misma debe cancelarse.
-        val currency = currencyService.getCurrency(order.price.bidCurrency.ticker)!!
+        val currency = currencyService.getOrUpdateCurrency(order.price.bidCurrency.ticker)
         // Si la diferencia es mayor a un 5%, se elimina la orden
         if (currency.usdPrice > order.price.bidCurrency.usdPrice * 1.05) {
             throw CancelOrderDuePriceDifferenceException()

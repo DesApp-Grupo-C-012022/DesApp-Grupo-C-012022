@@ -45,7 +45,7 @@ class TransactionConfirmTransfer @Autowired constructor(
     override fun checkBidCurrencyVariation(order: Order) {
         // Si al momento de concretar una intención de venta, la cotización de sistema
         // está por debajo del precio manifestado por el usuario, la misma también debe cancelarse.
-        val currency = currencyService.getCurrency(order.price.bidCurrency.ticker)!!
+        val currency = currencyService.getOrUpdateCurrency(order.price.bidCurrency.ticker)
         // Si la diferencia es mayor a un 5%, se elimina la orden
         if (currency.usdPrice < order.price.bidCurrency.usdPrice * 0.95) {
             throw CancelOrderDuePriceDifferenceException()

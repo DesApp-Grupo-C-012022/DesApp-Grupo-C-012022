@@ -50,12 +50,13 @@ class CurrencyService {
         return Currency(ticker = "USDT", usdPrice =  1.0)
     }
 
-    fun getCurrency(currency: String): Currency? {
-        return currencyRepository.findByTickerAndLatest(currency)
-    }
-
     fun getPrices(): List<Currency> {
         return currencyRepository.findByTimestampGreaterThan(LocalDateTime.now().minusDays(1))
+    }
+
+    private fun getCurrency(currency: String): Currency? {
+        val ticker = currency + "USDT"
+        return currencyRepository.findFirstByTickerOrderByTimestampDesc(ticker)
     }
 
     private fun validateCurrency(currency: String) {

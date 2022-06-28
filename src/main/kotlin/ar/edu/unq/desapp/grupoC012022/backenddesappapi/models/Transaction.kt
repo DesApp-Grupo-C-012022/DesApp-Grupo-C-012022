@@ -13,7 +13,7 @@ import javax.persistence.*
 class Transaction(currency: Currency, quantity: Long, price: Price, amount: Long, user: User, operationQuantity: Int, destinationAddress: String, status: Status) {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @field:Schema(hidden = true) var id: Int = 0
-    @OneToOne(cascade = [CascadeType.ALL]) @JoinColumn(referencedColumnName = "id", nullable = false) var currency: Currency = currency
+    @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH]) @JoinColumn(referencedColumnName = "id", nullable = false) var currency: Currency = currency
     @Column(nullable = false) var quantity: Long = quantity
     @OneToOne @JoinColumn(referencedColumnName = "id", nullable = false) var price: Price = price
     @Column(nullable = false) var amount: Long = amount

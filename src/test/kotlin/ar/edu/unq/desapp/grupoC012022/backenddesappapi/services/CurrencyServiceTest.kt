@@ -39,8 +39,8 @@ class CurrencyServiceTest {
 		`when`(currencyRepositoryMock.findByTimestampGreaterThan(MockitoHelper.anyObject())).thenReturn(
 			listOf(bnbCurrency, btcCurrency)
 		)
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BNB")).thenReturn(bnbCurrency)
-		`when`(currencyRepositoryMock.findByTickerAndLatest("BTC")).thenReturn(btcCurrency)
+		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BNBUSDT")).thenReturn(bnbCurrency)
+		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BTCUSDT")).thenReturn(btcCurrency)
 	}
 
 	@Test
@@ -51,9 +51,9 @@ class CurrencyServiceTest {
 
 	@Test
 	fun getCurrencyTest() {
-		val cripto = this.subject.getCurrency("BNB")
-		assertEquals("BNBUSDT", cripto?.ticker)
-		assertEquals(1.01, cripto?.usdPrice)
+		val cripto = this.subject.getOrUpdateCurrency("BNB")
+		assertEquals("BNBUSDT", cripto.ticker)
+		assertEquals(1.01, cripto.usdPrice)
 	}
 
 	@Test
