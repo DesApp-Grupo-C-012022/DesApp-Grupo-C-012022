@@ -26,10 +26,9 @@ class KotlinSecurityConfiguration : WebSecurityConfigurerAdapter() {
             .anyRequest().authenticated()
 
         http.requestMatchers()
-                .antMatchers("/users","/users/**", "/transactions","/transactions/**", "/orders","/orders/**", "/currencies","/currencies/**")
+            .antMatchers("/users","/users/**", "/transactions","/transactions/**", "/orders","/orders/**", "/currencies","/currencies/**")
             .and()
             .addFilterBefore(AuthFilter(userService),UsernamePasswordAuthenticationFilter::class.java)
 
     }
-
 }

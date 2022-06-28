@@ -24,7 +24,7 @@ class AuthFilter(userService: UserService) : OncePerRequestFilter() {
 
         val tokenHeader: String = request.getHeader(HttpHeaders.AUTHORIZATION)
         val chunks = tokenHeader.split(" ").toTypedArray()
-        if (chunks.size != 2 || chunks[0] != "Bearer" || userService.validate(chunks[1]) == null)
+        if (chunks.size != 2 || chunks[0].replace(":","") != "Bearer" || userService.validate(chunks[1]) == null)
             throw IOException()
 
         filterChain.doFilter(request, response);
