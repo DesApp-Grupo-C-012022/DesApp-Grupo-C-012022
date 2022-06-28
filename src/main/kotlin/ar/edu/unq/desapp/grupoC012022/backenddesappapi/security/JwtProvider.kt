@@ -21,7 +21,7 @@ class JwtProvider {
     }
 
     fun createToken(user: User): String{
-        var claims = Jwts.claims().setSubject(user.email)
+        val claims = Jwts.claims().setSubject(user.email)
         claims["id"] = user.id
 
         return Jwts.builder()
@@ -41,7 +41,7 @@ class JwtProvider {
         }
     }
 
-    fun getEmailFronToken(token: String): String{
+    fun getEmailFromToken(token: String): String{
         return try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token).body.subject
         } catch (e: Exception){

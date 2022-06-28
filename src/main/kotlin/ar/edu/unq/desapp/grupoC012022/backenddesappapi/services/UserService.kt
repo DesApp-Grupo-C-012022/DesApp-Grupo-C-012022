@@ -1,17 +1,16 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.services
 
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.aspects.ControllerLoggerAspect
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.LoginUserDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TokenDto
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.*
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.UserRepository
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.InvalidPropertyException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserAlreadyExistsException
-import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.UserNotFoundException
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.security.JwtProvider
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.validators.UserValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -58,20 +57,23 @@ class UserService {
         return userRepository.findByFirstNameAndLastName(firstName, lastname) ?: throw UserNotFoundException()
     }
 
-    fun login(userDto: DeserializableUser): TokenDto? {
-        val user = findByEmail(userDto.email) ?: return null
-        if(passwordEncoder.matches(userDto.password, user.password))
-            return TokenDto(jwtProvider.createToken(user))
-        return null
+    fun login(userDto: LoginUserDto): TokenDto {
+        val user = findByEmail(userDto.email)
+        if (user == null || !passwordEncoder.matches(userDto.password, user.password)) {
+            throw InvalidUserOrPasswordException()
+        }
+        ControllerLoggerAspect.user = user
+        return TokenDto(jwtProvider.createToken(user))
     }
 
-    fun validate(token: String): TokenDto? {
+    fun validate(token: String): TokenDto {
         if(!jwtProvider.validate(token))
-            return null
+            throw InvalidOrMissingTokenException()
 
-        val email = jwtProvider.getEmailFronToken(token)
-        if(findByEmail(email) == null)
-            return null
+        val email = jwtProvider.getEmailFromToken(token)
+        if (findByEmail(email) == null)
+            throw InvalidOrMissingTokenException()
+
         return TokenDto(token)
     }
 }
