@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers
 
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.DeserializableUser
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.LoginUserDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.dtos.TokenDto
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.User
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
@@ -40,19 +41,13 @@ class UserController {
 
     @PostMapping("/auth/login")
     @ResponseBody
-    fun login(@RequestBody dto: DeserializableUser): ResponseEntity<TokenDto>{
-        val tokenDto = userService.login(dto)
-        if(tokenDto == null)
-            ResponseEntity.badRequest().build<TokenDto>()
-        return ResponseEntity.ok(tokenDto)
+    fun login(@RequestBody dto: LoginUserDto): ResponseEntity<TokenDto>{
+        return ResponseEntity.ok(userService.login(dto))
     }
 
     @PostMapping("/auth/validate")
     @ResponseBody
     fun validate(@RequestBody token: String): ResponseEntity<TokenDto>{
-        val tokenDto = userService.validate(token)
-        if(tokenDto == null)
-            ResponseEntity.badRequest().build<TokenDto>()
-        return ResponseEntity.ok(tokenDto)
+        return ResponseEntity.ok(userService.validate(token))
     }
 }
