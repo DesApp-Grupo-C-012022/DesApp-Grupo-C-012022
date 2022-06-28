@@ -36,8 +36,9 @@ class CurrencyServiceTest {
 			.prepareMock()
 		val bnbCurrency = currencyBuilder.createCurrencyWithValues().ticker("BNBUSDT").usdPrice(1.01).build()
 		val btcCurrency = currencyBuilder.createCurrencyWithValues().ticker("BTCUSDT").usdPrice(40000.1254).build()
-		`when`(currencyRepositoryMock.findByTimestampGreaterThan(MockitoHelper.anyObject())).thenReturn(
-			listOf(bnbCurrency, btcCurrency)
+		val btcCurrency2 = currencyBuilder.createCurrencyWithValues().ticker("BTCUSDT").usdPrice(30000.1254).build()
+		`when`(currencyRepositoryMock.findByTickerAndTimestampGreaterThanOrderByTickerAscTimestampDesc(MockitoHelper.anyObject(), MockitoHelper.anyObject())).thenReturn(
+			listOf(btcCurrency, btcCurrency2)
 		)
 		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BNBUSDT")).thenReturn(bnbCurrency)
 		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BTCUSDT")).thenReturn(btcCurrency)
@@ -72,11 +73,13 @@ class CurrencyServiceTest {
 
 	@Test
 	fun getPricesTest() {
-		val criptos = this.subject.getPrices()
+		val criptos = this.subject.getPrices("BTCUSDT")
 		assertEquals(2, criptos.size)
-		assertEquals("BNBUSDT", criptos.first().ticker)
+		assertEquals("BTCUSDT", criptos.first().ticker)
+		assertEquals(40000.1254, criptos.first().usdPrice)
 		assertNotNull(criptos.first().timestamp)
 		assertEquals("BTCUSDT", criptos.last().ticker)
+		assertEquals(30000.1254, criptos.last().usdPrice)
 		assertNotNull(criptos.last().timestamp)
 	}
 }

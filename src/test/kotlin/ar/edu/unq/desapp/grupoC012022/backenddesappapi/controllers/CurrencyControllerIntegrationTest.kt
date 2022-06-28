@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @SpringBootTest
@@ -80,32 +82,21 @@ class CurrencyControllerIntegrationTest {
 
     @Test
     fun getPricesTest() {
-        `when`(this.currencyServiceMock.getPrices()).thenReturn(listOf(
-            Currency(ticker = "BNBUSDT", usdPrice =  1.01),
+        `when`(this.currencyServiceMock.getPrices("BTCUSDT")).thenReturn(listOf(
+            Currency(ticker = "BTCUSDT", usdPrice =  30000.08),
             Currency(ticker = "BTCUSDT", usdPrice =  40000.08),
         ))
-        this.mockMvc.get("/currencies/prices").andExpect {
-            status { isOk() }
-            content {
-                jsonPath("$.[0].ticker") {
-                    value("BNBUSDT")
-                }
-                jsonPath("$.[0].usdPrice") {
-                    value(1.01)
-                }
-                jsonPath("$.[0].timestamp") {
-                    exists()
-                }
-                jsonPath("$.[1].ticker") {
-                    value("BTCUSDT")
-                }
-                jsonPath("$.[1].usdPrice") {
-                    value(40000.08)
-                }
-                jsonPath("$.[1].timestamp") {
-                    exists()
-                }
-            }
-        }
+        this.mockMvc
+            .perform(
+                get("/currencies/prices")
+                .param("ticker", "BTCUSDT")
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[0].ticker").value("BTCUSDT"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[0].usdPrice").value(30000.08))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[0].timestamp").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[1].ticker").value("BTCUSDT"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[1].usdPrice").value(40000.08))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.[1].timestamp").exists())
     }
 }

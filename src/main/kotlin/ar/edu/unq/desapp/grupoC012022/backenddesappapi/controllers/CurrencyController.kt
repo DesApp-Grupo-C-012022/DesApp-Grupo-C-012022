@@ -34,7 +34,7 @@ class CurrencyController {
     @GetMapping("/currencies/prices")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun getPrices(): List<Currency> {
-        return currencyService.getPrices()
+    fun getPrices(@RequestParam ticker: String): List<Currency> {
+        return currencyService.getPrices(ticker)
     }
 }

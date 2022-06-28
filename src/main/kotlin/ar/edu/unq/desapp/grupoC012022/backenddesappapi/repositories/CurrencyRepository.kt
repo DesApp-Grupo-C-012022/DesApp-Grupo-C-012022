@@ -8,5 +8,5 @@ import java.time.LocalDateTime
 @Repository
 interface CurrencyRepository : JpaRepository<Currency, Int> {
     fun findFirstByTickerOrderByTimestampDesc(ticker: String): Currency?
-    fun findByTimestampGreaterThan(time: LocalDateTime): List<Currency>
+    fun findByTickerAndTimestampGreaterThanOrderByTickerAscTimestampDesc(ticker: String, time: LocalDateTime): List<Currency>
 }
