@@ -50,8 +50,8 @@ class CurrencyService {
         return Currency(ticker = "USDT", usdPrice =  1.0)
     }
 
-    fun getPrices(): List<Currency> {
-        return currencyRepository.findByTimestampGreaterThan(LocalDateTime.now().minusDays(1))
+    fun getPrices(ticker: String): List<Currency> {
+        return currencyRepository.findByTickerAndTimestampGreaterThanOrderByTickerAscTimestampDesc(ticker, LocalDateTime.now().minusDays(1))
     }
 
     private fun getCurrency(currency: String): Currency? {
