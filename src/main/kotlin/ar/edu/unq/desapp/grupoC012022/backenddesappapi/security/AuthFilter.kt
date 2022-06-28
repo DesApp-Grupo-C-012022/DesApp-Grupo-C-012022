@@ -23,13 +23,12 @@ class AuthFilter(val userService: UserService) : OncePerRequestFilter() {
 
         val tokenHeader: String = request.getHeader(HttpHeaders.AUTHORIZATION)
         val chunks = tokenHeader.split(" ").toTypedArray()
-        if (chunks.size != 2 || chunks[0].replace(":","") != "Bearer") {
-            try {
-                userService.validate(chunks[1])
-            } catch (e : InvalidOrMissingTokenException) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.message)
-                return
-            }
+        try {
+            val token = if (chunks.size != 2 || chunks[0].replace(":","") != "Bearer") "" else chunks[1]
+            userService.validate(token)
+        } catch (e : InvalidOrMissingTokenException) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.message)
+            return
         }
 
         filterChain.doFilter(request, response)
