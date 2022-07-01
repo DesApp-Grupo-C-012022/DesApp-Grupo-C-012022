@@ -5,11 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider
 import org.apache.logging.log4j.LogManager
-import org.aspectj.lang.JoinPoint
-import org.aspectj.lang.annotation.After
-import org.aspectj.lang.annotation.Aspect
-import org.aspectj.lang.annotation.Before
-import org.aspectj.lang.annotation.Pointcut
+import org.aspectj.lang.ProceedingJoinPoint
+import org.aspectj.lang.annotation.*
 import org.json.JSONObject
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
@@ -23,20 +20,13 @@ class ControllerLoggerAspect {
     }
 
     private val logger = LogManager.getLogger(ControllerLoggerAspect::class.java)
-    private var initialTime: Long = 0
 
-    @Pointcut("within(ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers..*)")
-    fun loggerStarter(){}
-
-    @Before("loggerStarter()")
-    fun beforeLoggerStarter() {
-        this.initialTime = System.currentTimeMillis()
-    }
-
-    @After("loggerStarter()")
-    fun afterLoggerStarter(joinPoint: JoinPoint) {
+    @Around("within(ar.edu.unq.desapp.grupoC012022.backenddesappapi.controllers..*)")
+    fun logAroundControllersMethods(joinPoint: ProceedingJoinPoint): Any {
+        val initialTime = System.currentTimeMillis()
+        val result = joinPoint.proceed(joinPoint.args)
         val finishTime = System.currentTimeMillis()
-        val diff = finishTime - this.initialTime
+        val diff = finishTime - initialTime
         val json = JSONObject()
         val filterProvider = SimpleFilterProvider()
         filterProvider.addFilter("userFilter", SimpleBeanPropertyFilter.serializeAllExcept("password"))
@@ -52,5 +42,6 @@ class ControllerLoggerAspect {
             json.put("Arguments", mapper.writeValueAsString(joinPoint.args))
         }
         logger.info(json)
+        return result
     }
 }
