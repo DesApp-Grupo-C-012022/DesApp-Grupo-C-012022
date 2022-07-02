@@ -4,7 +4,6 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.security.AuthFilter
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
