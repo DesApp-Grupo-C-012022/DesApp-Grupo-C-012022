@@ -38,8 +38,7 @@ class CurrencyService {
         newCurrency.latest = true
         currencyRepository.save(newCurrency)
 
-        LogManager.getLogger().info("Saving currency ${newCurrency.ticker} to redis")
-        this.redisTemplate.opsForValue().set("ticker_${newCurrency.ticker}", newCurrency)
+        this.saveCurrencyToRedis(newCurrency)
 
         return newCurrency
     }
@@ -62,13 +61,25 @@ class CurrencyService {
     }
 
     private fun getCurrency(ticker: String): Currency? {
-        LogManager.getLogger().info("Getting currency $ticker from redis")
-        var currency: Currency? = this.redisTemplate.opsForValue().get("ticker_${ticker}USDT")
+        var currency: Currency? = this.getCurrencyFromRedis(ticker)
         if (currency == null) {
             LogManager.getLogger().info("Getting currency $ticker from db")
             currency = currencyRepository.findFirstByTickerOrderByTimestampDesc("${ticker}USDT")
+            if (currency != null) {
+                this.saveCurrencyToRedis(currency)
+            }
         }
         return currency
+    }
+
+    private fun saveCurrencyToRedis(currency: Currency) {
+        LogManager.getLogger().info("Saving currency ${currency.ticker} to redis")
+        this.redisTemplate.opsForValue().set("ticker_${currency.ticker}", currency)
+    }
+
+    private fun getCurrencyFromRedis(ticker: String): Currency? {
+        LogManager.getLogger().info("Getting currency $ticker from redis")
+        return this.redisTemplate.opsForValue().get("ticker_${ticker}USDT")
     }
 
     private fun validateCurrency(currency: String) {
