@@ -6,8 +6,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepo
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CurrencyNotSupportedException
 import org.apache.logging.log4j.LogManager
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cache.annotation.CachePut
-import org.springframework.cache.annotation.Cacheable
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -19,9 +18,10 @@ class CurrencyService {
     lateinit var binanceApi: BinanceApi
     @Autowired
     lateinit var currencyRepository: CurrencyRepository
+    @Autowired
+    lateinit var redisTemplate: RedisTemplate<String, Currency>
 
     @Transactional
-    @CachePut(key = "'allCurrencies'", value = ["allCurrenciesCache"])
     fun updateCurrencies(): List<Currency> {
         return this.binanceApi.supportedCurrencies().map { updateCurrency(it) }
     }
@@ -38,6 +38,9 @@ class CurrencyService {
         newCurrency.latest = true
         currencyRepository.save(newCurrency)
 
+        LogManager.getLogger().info("Saving currency ${newCurrency.ticker} to redis")
+        this.redisTemplate.opsForValue().set("ticker_${newCurrency.ticker}", newCurrency)
+
         return newCurrency
     }
 
@@ -46,7 +49,6 @@ class CurrencyService {
         return getCurrency(ticker) ?: updateCurrency(ticker)
     }
 
-    @Cacheable(key = "'allCurrencies'", value = ["allCurrenciesCache"])
     fun getCurrencies(): List<Currency> {
         return this.binanceApi.supportedCurrencies().map { getOrUpdateCurrency(it) }
     }
@@ -59,10 +61,14 @@ class CurrencyService {
         return currencyRepository.findByTickerAndTimestampGreaterThanOrderByTickerAscTimestampDesc(ticker, LocalDateTime.now().minusDays(1))
     }
 
-    private fun getCurrency(currency: String): Currency? {
-        LogManager.getLogger().info("Getting currency $currency from db")
-        val ticker = currency + "USDT"
-        return currencyRepository.findFirstByTickerOrderByTimestampDesc(ticker)
+    private fun getCurrency(ticker: String): Currency? {
+        LogManager.getLogger().info("Getting currency $ticker from redis")
+        var currency: Currency? = this.redisTemplate.opsForValue().get("ticker_${ticker}USDT")
+        if (currency == null) {
+            LogManager.getLogger().info("Getting currency $ticker from db")
+            currency = currencyRepository.findFirstByTickerOrderByTimestampDesc("${ticker}USDT")
+        }
+        return currency
     }
 
     private fun validateCurrency(currency: String) {

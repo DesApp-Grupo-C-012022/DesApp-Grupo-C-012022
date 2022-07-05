@@ -11,6 +11,7 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_DB: criptop2p
       - image: cimg/python:3.10.4
+      - image: cimg/redis:6.2.6
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb

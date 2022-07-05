@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoC012022.backenddesappapi.models
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import io.swagger.v3.oas.annotations.media.Schema
+import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -15,7 +16,7 @@ class Currency(
     @Column(nullable = false) var ticker: String,
     @Column(nullable = false) var usdPrice: Double,
     @Column(nullable = false) var latest: Boolean = false
-) {
+): Serializable {
 
     @Column(nullable = false) val timestamp: LocalDateTime = LocalDateTime.now()
 }

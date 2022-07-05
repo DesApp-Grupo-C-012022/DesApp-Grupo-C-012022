@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoC012022.backenddesappapi.builders.CurrencyBuilder
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.helpers.MockitoHelper
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.repositories.CurrencyRepository
 import ar.edu.unq.desapp.grupoC012022.backenddesappapi.exceptions.CurrencyNotSupportedException
+import ar.edu.unq.desapp.grupoC012022.backenddesappapi.models.Currency
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,14 +14,22 @@ import org.junit.jupiter.api.assertThrows
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.any
 import org.mockito.MockitoAnnotations
+import org.mockito.Spy
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.ValueOperations
 
 class CurrencyServiceTest {
 
 	@Mock
-	private lateinit var binanceApiMock : BinanceApi
+	private lateinit var binanceApiMock: BinanceApi
 	@Mock
-	private lateinit var currencyRepositoryMock : CurrencyRepository
+	private lateinit var currencyRepositoryMock: CurrencyRepository
+	@Mock
+	private lateinit var redisTemplateMock: RedisTemplate<String, Currency>
+	@Mock
+	private lateinit var valueOperationsMocks: ValueOperations<String, Currency>
 
 	@InjectMocks
 	private lateinit var subject : CurrencyService
@@ -42,6 +51,8 @@ class CurrencyServiceTest {
 		)
 		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BNBUSDT")).thenReturn(bnbCurrency)
 		`when`(currencyRepositoryMock.findFirstByTickerOrderByTimestampDesc("BTCUSDT")).thenReturn(btcCurrency)
+		`when`(redisTemplateMock.opsForValue()).thenReturn(valueOperationsMocks)
+		`when`(valueOperationsMocks.get(any())).thenReturn(null)
 	}
 
 	@Test
