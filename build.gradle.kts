@@ -53,7 +53,7 @@ sonarqube {
 		property("sonar.organization", "ggoffredo-jcvincenti")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
-		property("sonar.exclusions", "'**/apis/**', '**/security/**', '**/jobs/**', '**/aspects/**'")
+		property("sonar.coverage.exclusions", "**/apis/**, **/security/**, **/jobs/**, **/aspects/**")
 	}
 }
 
@@ -73,11 +73,6 @@ tasks.jacocoTestReport {
 	reports {
 		xml.required.set(true)
 	}
-	classDirectories.setFrom(files(classDirectories.files.map {
-		fileTree(it) {
-			exclude("**/apis/**", "**/jobs/**", "**/aspects/**", "**/security/**")
-		}
-	}))
 }
 
 springBoot {
